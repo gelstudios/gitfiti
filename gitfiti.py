@@ -48,7 +48,7 @@ hackerschool=[
 [4,1,3,3,3,4],
 [4,3,3,3,3,4],
 [4,4,4,4,4,4],
-[0,0,4,4,0,0]
+[0,0,4,4,0,0],
 [4,4,4,4,4,4]]
 
 octocat=[
@@ -68,6 +68,16 @@ hireme=[
 [3,0,3,0,3,0,3,0,0,0,3,3,3,0,0,3,0,3,0,3,0,3,3,3],
 [2,0,2,0,2,0,2,0,0,0,2,0,0,0,0,2,0,2,0,2,0,2,0,0],
 [1,0,1,0,1,0,1,0,0,0,1,1,1,0,0,1,0,1,0,1,0,1,1,1]]
+
+images={
+'kitty':kitty,
+'oneup':oneup,
+'twoup':twoup,
+'hello':hello,
+'hackerschool':hackerschool,
+'octocat':octocat,
+'hireme':hireme
+}
 
 def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
@@ -118,29 +128,29 @@ def values_in_date_order(image, multiplier=1):
 			yield image[h][w]*multiplier
 
 def commit(content, commitdate):
-	template = '''echo %s >> gitfiti\nGIT_AUTHOR_DATE=%s GIT_COMMITTER_DATE= %s git commit -a -m "gitfiti"\n''' 
+	template = '''echo %s >> gitfiti\nGIT_AUTHOR_DATE=%s GIT_COMMITTER_DATE=%s git commit -a -m "gitfiti"\n''' 
 	return template	% (content, commitdate.isoformat(), commitdate.isoformat())
 
 def fake_it(image, start_date, username, repo, offset=0, multiplier=1):
 	template = ('#!/bin/bash\n'
-				'git init gitfiti\n'
-				'cd gitfiti\n'
+				'REPO=%s\n'
+				'git init $"REPO"\n'
+				'cd $"REPO"\n'
 				'touch gitfiti\n'
 				'git add gitfiti\n'
 				'%s\n'
-				'git remote add origin git@github.com:%s/%s.git\n'
+				'git remote add origin git@github.com:%s/$"REPO".git\n'
 				'git pull\n'
 				'git push -u origin master\n')
 	strings = []
 	for value, date in zip(values_in_date_order(image, multiplier), date_gen(start_date, offset)):
 		for i in range(value):
 			strings.append(commit(i, date))
-	return template % ("".join(strings), username, repo)
+	return template % (repo, "".join(strings), username)
 
 def save(output, filename):
 	"""Saves the list to a given filename"""
 	f = open(filename, "w")
-	f.write('\n')
 	f.write(output)
 	f.close()
 
@@ -155,6 +165,16 @@ def main():
 	
 	print 'enter weeks to offset the image:'
 	offset = raw_input(">")
+	if offset == None: offset = 0
+	else: offset = int(offset)
+
+	print 'enter the image name to gitfiti'
+	print 'images: ' + ", ".join(images.keys())
+	image = raw_input(">")
+	if image == None: image = images['kitty']
+	else:
+		try: image = images[image]
+		except: image = images['kitty']
 
 	output = fake_it(image, get_start_date(), username, repo, offset, m)
 	save(output, 'gitfiti.sh')

@@ -1,29 +1,13 @@
-#gitfiti
-#generate a value insertion plan for a 7xN matrix
-#github new repo in account
-#git init new repo
-#	git add gitfiti_output
-#	start of file:
-#	git commit -date $(date in the past) gitfiti_output
-#	for day in matrix:
-#		for value in day:
-#			add a character to gitfiti file
-#			git commit -m -date $date_value gitfiti_output "g"
-#git add remote (get github url)
-#git push -f master
-
-import os, sys, datetime, math
+import os, sys, datetime, math, itertools
 try:
 	import requests
 except:
 	print 'the requests module is required'
 	exit(1)
 
-BASEURL='https://github.com/'
-color_commit_values=[0,1,2,3,4]
-
 def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
+	BASEURL='https://github.com/'
 	url = BASEURL + 'users/' + username + '/contributions_calendar_data'
 	req = requests.get(url)
 	return req.json()
@@ -47,6 +31,66 @@ def trim_calendar(input):
 		if weekday == 6:
 			return i
 
+def multiplier(max_commits):
+	"""calculates a multiplier to scale github colors to commit history"""
+	m = max_commits/4.0
+	m = math.ceil(m)
+	m = int(m)
+	return m
+
+def get_start_date():
+	'''returns a datetime object for the first sunday after one year ago today at 12:00 noon'''
+	d = datetime.datetime.today()
+	date = datetime.datetime(d.year-1, d.month, d.day, 12)
+	weekday = datetime.datetime.weekday(date)
+	while weekday < 6:
+		print repr(date)
+		date = date + datetime.timedelta(1)
+		weekday = datetime.datetime.weekday(date)
+	return date
+
+def date_gen(start_date):
+	'''generator to return the next day, requires a datetime object as input'''
+	for i in itertools.count():
+		yield start_date + datetime.timedelta(i)
+
+def values_in_date_order(image, multiplier=1):
+	height = 7
+	width = len(image[0])
+	for h in range(height):
+		for w in range(width):
+			yield image[h][w]*multiplier
+
+def fake_it(image, start_date, username, repo, multiplier=1):
+	template=('git init gitfiti\n'
+				'cd gitfiti\n'
+				'touch gitfiti\n'
+				'git add gitfiti\n'
+				'%s\n'
+				'git remote add origin git@github.com:%s/%s.git\n'
+				'git push -u origin master\n')
+	strings = []
+	for value, date in zip(values_in_date_order(image, multiplier), date_gen(start_date)):
+		for i in range(value):
+			strings.append(commit(i, date))
+	return template % ("".join(strings), username, repo)
+	
+def commit(content, commitdate):
+	template='''echo %s >> gitfiti\nGIT_AUTHOR_DATE=%s GIT_COMMITTER_DATE= %s git commit -a -m "gitfiti"\n''' 
+	return template	% (content, commitdate.isoformat(), commitdate.isoformat())
+
+def main():
+	username='gelstudios'
+	cal = get_calendar(username)
+	x = trim_calendar(cal)
+	m = max_commits(cal)
+	m = multiplier(m)
+	cal = cal[x:]
+	fake_it(kitty, get_start_date(), m)
+
+if __name__=='__main__':
+	main()
+
 kitty=[
 [0,0,0,4,0,0,0,0,4,0,0,0],
 [3,3,4,2,4,4,4,4,2,4,3,3],
@@ -65,47 +109,11 @@ oneup=[
 [0,0,4,1,1,1,1,1,4,0,0],
 [0,0,0,4,4,4,4,4,0,0,0]]
 
-#each column starts on SUNDAY
-def multiplier(max_commits):
-	"""calculates a multiplier to scale github colors to commit history"""
-	m = max_commits/4.0
-	m = math.ceil(m)
-	m = int(m)
-	return m
-
-def fakeit(image, reference, multiplier=1):
-	height = range(7)
-	width = len(image[0])
-	cal_index = 0
-	for w in range(width):
-		for h in height:
-			count = image[h][w]*multiplier
-			if count == 0:
-				cal_index += 1
-				continue
-			for c in range(count):
-				date = reference[cal_index][0]
-				date = datetime.datetime.strptime(date, '%Y/%m/%d').isoformat()
-				shelloutput(c, date)
-			cal_index += 1
-
-def shelloutput(content, commitdate):
-	print '''echo ''' + str(content) + ''' >> gitfiti'''
-	print '''GIT_AUTHOR_DATE=''' + commitdate + ''' GIT_COMMITTER_DATE=''' + commitdate + ''' git commit -a -m "''' + "gitfiti" +'''"'''
-
-
-#git init gitfitii
-#cd gitfiti
-#touch gitfiti
-#git add gitfiti
-###SHELLOUTPUT
-#git remote add origin git@github.com:gelstudios/kitty.git
-#git push -u origin master
-
-username='gelstudios'
-cal = get_calendar(username)
-x = trim_calendar(cal)
-m = max_commits(cal)
-m = multiplier(m)
-cal = cal[x:]
-fakeit(kitty, cal, m)
+hello=[
+[0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,2,2,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]]

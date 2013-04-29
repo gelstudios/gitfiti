@@ -1,9 +1,73 @@
+#!/bin/env python
 import os, sys, datetime, math, itertools
 try:
 	import requests
 except:
 	print 'the requests module is required'
 	exit(1)
+
+kitty=[
+[0,0,0,4,0,0,0,0,4,0,0,0],
+[0,0,4,2,4,4,4,4,2,4,0,0],
+[0,0,4,2,2,2,2,2,2,4,0,0],
+[2,2,4,2,4,2,2,4,2,4,2,2],
+[0,0,4,2,2,3,3,2,2,4,0,0],
+[2,2,4,2,2,2,2,2,2,4,2,2],
+[0,0,0,3,4,4,4,4,3,0,0,0]]
+
+oneup=[
+[0,0,4,4,4,4,4,4,4,0,0],
+[0,4,2,2,1,1,1,2,2,4,0],
+[4,3,2,2,1,1,1,2,2,3,4],
+[4,3,3,4,4,4,4,4,3,3,4],
+[0,4,4,1,4,1,4,1,4,4,0],
+[0,0,4,1,1,1,1,1,4,0,0],
+[0,0,0,4,4,4,4,4,0,0,0]]
+
+twoup=[
+[0,0,4,4,4,4,4,4,4,0,0,0,0,0,4,4,4,4,4,4,4,0,0],
+[0,4,2,2,1,1,1,2,2,4,0,0,0,4,2,2,1,1,1,2,2,4,0],
+[4,3,2,2,1,1,1,2,2,3,4,0,4,3,2,2,1,1,1,2,2,3,4],
+[4,3,3,4,4,4,4,4,3,3,4,0,4,3,3,4,4,4,4,4,3,3,4],
+[0,4,4,1,4,1,4,1,4,4,0,0,0,4,4,1,4,1,4,1,4,4,0],
+[0,0,4,1,1,1,1,1,4,0,0,0,0,0,4,1,1,1,1,1,4,0,0],
+[0,0,0,4,4,4,4,4,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0]]
+
+hello=[
+[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,4],
+[0,2,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,4],
+[0,3,3,3,0,2,3,3,0,3,0,3,0,1,3,1,0,3],
+[0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,3],
+[0,3,0,3,0,3,3,3,0,3,0,3,0,3,0,3,0,2],
+[0,2,0,2,0,2,0,0,0,2,0,2,0,2,0,2,0,0],
+[0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,4]]
+
+hackerschool=[
+[4,4,4,4,4,4],
+[4,3,3,3,3,4],
+[4,1,3,3,3,4],
+[4,3,3,3,3,4],
+[4,4,4,4,4,4],
+[0,0,4,4,0,0]
+[4,4,4,4,4,4]]
+
+octocat=[
+[0,0,0,4,0,0,0,4,0],
+[0,0,4,4,4,4,4,4,4],
+[0,0,4,1,3,3,3,1,4],
+[4,0,3,4,3,3,3,4,3],
+[0,4,0,0,4,4,4,0,0],
+[0,0,4,4,4,4,4,4,4],
+[0,0,4,0,4,0,4,0,4]]
+
+hireme=[
+[1,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[3,3,3,0,2,0,3,3,3,0,2,3,3,0,0,3,3,0,3,0,0,2,3,3],
+[4,0,4,0,4,0,4,0,0,0,4,0,4,0,0,4,0,4,0,4,0,4,0,4],
+[3,0,3,0,3,0,3,0,0,0,3,3,3,0,0,3,0,3,0,3,0,3,3,3],
+[2,0,2,0,2,0,2,0,0,0,2,0,0,0,0,2,0,2,0,2,0,2,0,0],
+[1,0,1,0,1,0,1,0,0,0,1,1,1,0,0,1,0,1,0,1,0,1,1,1]]
 
 def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
@@ -21,15 +85,6 @@ def max_commits(input):
 	output.sort()
 	output.reverse()
 	return output[0]
-
-def trim_calendar(input):
-	"""returns index of first sunday in the input"""
-	for i, j in enumerate(input):
-		day = input[i][0]
-		day = datetime.datetime.strptime(day, '%Y/%m/%d')
-		weekday = datetime.datetime.weekday(day)
-		if weekday == 6:
-			return i
 
 def multiplier(max_commits):
 	"""calculates a multiplier to scale github colors to commit history"""
@@ -49,9 +104,10 @@ def get_start_date():
 		weekday = datetime.datetime.weekday(date)
 	return date
 
-def date_gen(start_date):
-	'''generator to return the next day, requires a datetime object as input'''
-	for i in itertools.count():
+def date_gen(start_date, offset=0):
+	'''generator to return the next day, requires a datetime object as input. The offset is weeks'''
+	start = offset * 7
+	for i in itertools.count(start):
 		yield start_date + datetime.timedelta(i)
 
 def values_in_date_order(image, multiplier=1):
@@ -61,59 +117,48 @@ def values_in_date_order(image, multiplier=1):
 		for w in range(width):
 			yield image[h][w]*multiplier
 
-def fake_it(image, start_date, username, repo, multiplier=1):
-	template=('git init gitfiti\n'
+def commit(content, commitdate):
+	template = '''echo %s >> gitfiti\nGIT_AUTHOR_DATE=%s GIT_COMMITTER_DATE= %s git commit -a -m "gitfiti"\n''' 
+	return template	% (content, commitdate.isoformat(), commitdate.isoformat())
+
+def fake_it(image, start_date, username, repo, offset=0, multiplier=1):
+	template = ('#!/bin/bash\n'
+				'git init gitfiti\n'
 				'cd gitfiti\n'
 				'touch gitfiti\n'
 				'git add gitfiti\n'
 				'%s\n'
 				'git remote add origin git@github.com:%s/%s.git\n'
+				'git pull\n'
 				'git push -u origin master\n')
 	strings = []
-	for value, date in zip(values_in_date_order(image, multiplier), date_gen(start_date)):
+	for value, date in zip(values_in_date_order(image, multiplier), date_gen(start_date, offset)):
 		for i in range(value):
 			strings.append(commit(i, date))
 	return template % ("".join(strings), username, repo)
-	
-def commit(content, commitdate):
-	template='''echo %s >> gitfiti\nGIT_AUTHOR_DATE=%s GIT_COMMITTER_DATE= %s git commit -a -m "gitfiti"\n''' 
-	return template	% (content, commitdate.isoformat(), commitdate.isoformat())
+
+def save(output, filename):
+	"""Saves the list to a given filename"""
+	f = open(filename, "w")
+	f.write('\n')
+	f.write(output)
+	f.close()
 
 def main():
-	username='gelstudios'
+	print 'enter your github username:'
+	username = raw_input(">")
 	cal = get_calendar(username)
-	x = trim_calendar(cal)
-	m = max_commits(cal)
-	m = multiplier(m)
-	cal = cal[x:]
-	fake_it(kitty, get_start_date(), m)
+	m = multiplier(max_commits(cal))
+
+	print 'enter name of the repo to be used by gitfiti:'
+	repo = raw_input(">")
+	
+	print 'enter weeks to offset the image:'
+	offset = raw_input(">")
+
+	output = fake_it(image, get_start_date(), username, repo, offset, m)
+	save(output, 'gitfiti.sh')
+	print 'gitfiti.sh saved, run it from inside the repo you want to gitfiti'
 
 if __name__=='__main__':
 	main()
-
-kitty=[
-[0,0,0,4,0,0,0,0,4,0,0,0],
-[3,3,4,2,4,4,4,4,2,4,3,3],
-[0,0,4,2,2,2,2,2,2,4,0,0],
-[3,3,4,2,4,2,2,4,2,4,3,3],
-[0,0,4,2,2,3,3,2,2,4,0,0],
-[3,3,4,2,2,2,2,2,2,4,3,3],
-[0,0,0,4,4,4,4,4,4,0,0,0]]
-
-oneup=[
-[0,0,4,4,4,4,4,4,4,0,0],
-[0,4,2,2,1,1,1,2,2,4,0],
-[4,3,2,2,1,1,1,2,2,3,4],
-[4,3,3,4,4,4,4,4,3,3,4],
-[0,4,4,1,4,1,4,1,4,4,0],
-[0,0,4,1,1,1,1,1,4,0,0],
-[0,0,0,4,4,4,4,4,0,0,0]]
-
-hello=[
-[0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,2,2,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]]

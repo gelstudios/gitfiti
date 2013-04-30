@@ -1,6 +1,6 @@
-gitfiti _noun_ : carefully crafted griffiti in a github commit history calendar.
+gitfiti _noun_ : carefully crafted graffiti in a github commit history calendar.
 
-`gitfiti.py` is a tool I wrote to (blatantly) abuse your github account's commit history calendar.
+`gitfiti.py` is a tool I wrote to decorate your github account's commit history calendar by (blatantly) abusing git.
 
 I highly recommend that you create a _new_ github repo when using gitfiti.
 

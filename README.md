@@ -1,8 +1,24 @@
-gitfiti
-=======
-gitfiti is a tool I wrote to blatantly abuse your github account's commit history calendar.
+##gitfiti
+gitfiti is a tool I wrote to (blatantly) abuse your github account's commit history calendar.
 
-I _highly_ recommend that you create a _new_ github repo when using gitfiti.
+I highly recommend that you create a _new_ github repo when using gitfiti.
 
-Todo:
-Finish web interface
+###Usage:
+1. create a new github repo to store your handiwork.
+2. Run `gitfiti.py` and follow the prompts for username, art selection, offset, and repo name.
+3. Run the generated `gitfiti.sh` from your home directory (or any non-git tracked dir) and watch it go to work.
+4. Wait... Seriously, you'll probably need to wait a day or two for the gitfiti to show in your commit graph.
+
+
+###Removal:
+Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti.
+
+
+---
+####Todo:
+- Remove 'requests' dependency
+- Web interface
+- Load "art" from a file
+- Load commit content from a file
+- ...
+- Profit?

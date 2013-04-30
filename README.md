@@ -9,10 +9,8 @@ I highly recommend that you create a _new_ github repo when using gitfiti.
 3. Run the generated `gitfiti.sh` from your home directory (or any non-git tracked dir) and watch it go to work.
 4. Wait... Seriously, you'll probably need to wait a day or two for the gitfiti to show in your commit graph.
 
-
 ###Removal:
-Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti.
-
+Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
 
 ---
 ####Todo:
@@ -22,3 +20,9 @@ Fortunately if you regret your gitfiti in the morning, removing it is fairly eas
 - Load commit content from a file
 - ...
 - Profit?
+
+
+
+
+
+![alt text](http://f.cl.ly/items/0J463J0K1N020S1Q3E3l/er-small.png "tiny logo")

@@ -1,5 +1,8 @@
 gitfiti _noun_ : carefully crafted graffiti in a github commit history calendar.
 
+<style>img{image-rendering: optimizeSpeed; }</style>
+<img src='https://raw.github.com/gelstudios/gitfiti/master/pixels.png' alt='gitfiti art' height='28' width='204'/ style="image-rendering: optimizeSpeed;"/>
+
 `gitfiti.py` is a tool I wrote to decorate your github account's commit history calendar by (blatantly) abusing git.
 
 I highly recommend that you create a _new_ github repo when using gitfiti.

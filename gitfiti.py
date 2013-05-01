@@ -6,6 +6,9 @@ except:
 	print 'the requests module is required'
 	exit(1)
 
+title='''
+'''
+
 kitty=[
 [0,0,0,4,0,0,0,0,4,0,0,0],
 [0,0,4,2,4,4,4,4,2,4,0,0],
@@ -45,7 +48,7 @@ hello=[
 hackerschool=[
 [4,4,4,4,4,4],
 [4,3,3,3,3,4],
-[4,1,3,3,3,4],
+[4,1,3,3,1,4],
 [4,3,3,3,3,4],
 [4,4,4,4,4,4],
 [0,0,4,4,0,0],
@@ -59,6 +62,15 @@ octocat=[
 [0,4,0,0,4,4,4,0,0],
 [0,0,4,4,4,4,4,4,4],
 [0,0,4,0,4,0,4,0,4]]
+
+octocat2=[
+[0,0,4,0,0,4,0],
+[0,4,4,4,4,4,4],
+[0,4,1,3,3,1,4],
+[0,4,4,4,4,4,4],
+[4,0,0,4,4,0,0],
+[0,4,4,4,4,4,0],
+[0,0,0,4,4,4,0]]
 
 hireme=[
 [1,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -76,6 +88,8 @@ images={
 'hello':hello,
 'hackerschool':hackerschool,
 'octocat':octocat,
+'octocat2':octocat2,
+'hello':hello,
 'hireme':hireme
 }
 
@@ -115,7 +129,7 @@ def get_start_date():
 	return date
 
 def date_gen(start_date, offset=0):
-	'''generator to return the next day, requires a datetime object as input. The offset is weeks'''
+	'''generator that returns the next date, requires a datetime object as input. The offset is in weeks'''
 	start = offset * 7
 	for i in itertools.count(start):
 		yield start_date + datetime.timedelta(i)
@@ -155,6 +169,14 @@ def save(output, filename):
 	f.close()
 
 def main():
+	print '''
+          _ __  _____ __  _ 
+   ____ _(_) /_/ __(_) /_(_)
+  / __ `/ / __/ /_/ / __/ / 
+ / /_/ / / /_/ __/ / /_/ /  
+ \__, /_/\__/_/ /_/\__/_/   
+/____/ 
+'''
 	print 'enter your github username:'
 	username = raw_input(">")
 	cal = get_calendar(username)
@@ -178,7 +200,8 @@ def main():
 
 	output = fake_it(image, get_start_date(), username, repo, offset, m)
 	save(output, 'gitfiti.sh')
-	print 'gitfiti.sh saved, run it from inside the repo you want to gitfiti'
+	print 'gitfiti.sh saved. Create a new(!) repo at: https://github.com/new\
+	run it from inside the repo you want to gitfiti'
 
 if __name__=='__main__':
 	main()

@@ -19,6 +19,15 @@ kitty=[
 [0,0,0,3,4,4,4,4,3,0,0,0]]
 
 oneup=[
+[0,4,4,4,4,4,4,4,0],
+[4,3,2,2,1,2,2,3,4],
+[4,2,2,1,1,1,2,2,4],
+[4,3,4,4,4,4,4,3,4],
+[4,4,1,4,1,4,1,4,4],
+[0,4,1,1,1,1,1,4,0],
+[0,0,4,4,4,4,4,0,0]]
+
+oneup2=[
 [0,0,4,4,4,4,4,4,4,0,0],
 [0,4,2,2,1,1,1,2,2,4,0],
 [4,3,2,2,1,1,1,2,2,3,4],
@@ -75,6 +84,7 @@ hireme=[
 images={
 'kitty':kitty,
 'oneup':oneup,
+'oneup2':oneup2,
 'hackerschool':hackerschool,
 'octocat':octocat,
 'octocat2':octocat2,
@@ -102,6 +112,7 @@ def max_commits(input):
 def multiplier(max_commits):
 	"""calculates a multiplier to scale github colors to commit history"""
 	m = max_commits/4.0
+	if m == 0: return 1
 	m = math.ceil(m)
 	m = int(m)
 	return m
@@ -112,7 +123,6 @@ def get_start_date():
 	date = datetime.datetime(d.year-1, d.month, d.day, 12)
 	weekday = datetime.datetime.weekday(date)
 	while weekday < 6:
-		print repr(date)
 		date = date + datetime.timedelta(1)
 		weekday = datetime.datetime.weekday(date)
 	return date
@@ -137,12 +147,14 @@ def commit(content, commitdate):
 def fake_it(image, start_date, username, repo, offset=0, multiplier=1):
 	template = ('#!/bin/bash\n'
 				'REPO=%s\n'
-				'git init $"REPO"\n'
-				'cd $"REPO"\n'
+				'git init $REPO\n'
+				'cd $REPO\n'
+				'touch README.md\n'
+				'git add README.md\n'
 				'touch gitfiti\n'
 				'git add gitfiti\n'
 				'%s\n'
-				'git remote add origin git@github.com:%s/$"REPO".git\n'
+				'git remote add origin git@github.com:%s/$REPO.git\n'
 				'git pull\n'
 				'git push -u origin master\n')
 	strings = []
@@ -189,8 +201,7 @@ def main():
 
 	output = fake_it(image, get_start_date(), username, repo, offset, m)
 	save(output, 'gitfiti.sh')
-	print 'gitfiti.sh saved. Create a new(!) repo at: https://github.com/new\
-	run it from inside the repo you want to gitfiti'
+	print 'gitfiti.sh saved. Create a new(!) repo at: https://github.com/new and run it.'
 
 if __name__=='__main__':
 	main()

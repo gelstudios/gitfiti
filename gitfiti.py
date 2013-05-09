@@ -136,8 +136,8 @@ def date_gen(start_date, offset=0):
 def values_in_date_order(image, multiplier=1):
 	height = 7
 	width = len(image[0])
-	for h in range(height):
-		for w in range(width):
+	for w in range(width):
+		for h in range(height):
 			yield image[h][w]*multiplier
 
 def commit(content, commitdate):

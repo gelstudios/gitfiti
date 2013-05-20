@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 import os, sys, datetime, math, itertools
 try:
 	import requests

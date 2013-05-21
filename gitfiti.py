@@ -91,8 +91,8 @@ def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
 	BASEURL='https://github.com/'
 	url = BASEURL + 'users/' + username + '/contributions_calendar_data'
-	page = urllib2.urlopen(url).read()
-	return json.loads(page)
+	page = urllib2.urlopen(url)
+	return json.load(page)
 
 def max_commits(input):
 	"""finds the highest number of commits in one day"""

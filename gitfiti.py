@@ -1,10 +1,5 @@
 #!/usr/bin/env python
-import os, sys, datetime, math, itertools
-try:
-	import requests
-except:
-	print 'the requests module is required'
-	exit(1)
+import os, sys, datetime, math, itertools, urllib2, json
 
 title='''
 '''
@@ -96,8 +91,8 @@ def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
 	BASEURL='https://github.com/'
 	url = BASEURL + 'users/' + username + '/contributions_calendar_data'
-	req = requests.get(url)
-	return req.json()
+	page = urllib2.urlopen(url).read()
+	return json.loads(page)
 
 def max_commits(input):
 	"""finds the highest number of commits in one day"""

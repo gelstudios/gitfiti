@@ -87,6 +87,30 @@ images={
 'hireme':hireme
 }
 
+def load_images(imgNames):
+	"""loads user images from given file(s)"""
+	for imageName in imgNames:
+		img = open(imageName)
+		loadedImgs = {}
+		imgList = ''
+		imgLine = ' '
+		name = img.readline().replace('\n', '')
+		name = name[1:]
+
+		while True:
+			imgLine = img.readline()
+			if imgLine == '':
+				break
+			imgLine.replace('\n', '')
+			if(imgLine[0] == ':'):
+				loadedImgs[name] = json.loads(imgList)
+				name = imgLine[1:]
+				imgList = ''
+			else:
+				imgList += imgLine
+	loadedImgs[name] = json.loads(imgList)
+	return loadedImgs
+
 def get_calendar(username):
 	"""retrieves the github commit calendar data for a username"""
 	BASEURL='https://github.com/'
@@ -165,6 +189,7 @@ def save(output, filename):
 	f.close()
 
 def main():
+	global images
 	print '''
           _ __  _____ __  _ 
    ____ _(_) /_/ __(_) /_(_)
@@ -185,6 +210,10 @@ def main():
 	offset = raw_input(">")
 	if offset == None: offset = 0
 	else: offset = int(offset)
+
+	print 'enter file(s) to load images from (blank if not applicable)'
+	imgNames = raw_input(">").split(' ')
+	images = dict(images, **load_images(imgNames))
 
 	print 'enter the image name to gitfiti'
 	print 'images: ' + ", ".join(images.keys())

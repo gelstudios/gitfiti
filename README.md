@@ -30,7 +30,7 @@ The file format for personal templates is the following:
 
 For example:
 
-'''
+```
 :center-blank
 [[1,1,1,1,1,1,1],
 [1,1,1,1,1,1,1],
@@ -39,7 +39,7 @@ For example:
 [1,1,1,1,1,1,1],
 [1,1,1,1,1,1,1],
 [1,1,1,1,1,1,1]]
-'''
+```
 
 This would output a 7 x 7 light green square with a single blank center square.
 

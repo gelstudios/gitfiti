@@ -109,7 +109,6 @@ def load_images(imgNames):
 			else:
 				imgList += imgLine
 	loadedImgs[name] = json.loads(imgList)
-	print(loadedImgs)
 	return loadedImgs
 
 def get_calendar(username):

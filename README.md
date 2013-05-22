@@ -20,6 +20,31 @@ Included "art" from left to right: kitty, oneup, oneup2, hackerschool, octocat, 
 3. Run the generated `gitfiti.sh` from your home directory (or any non-git tracked dir) and watch it go to work.
 4. Wait... Seriously, you'll probably need to wait a day or two for the gitfiti to show in your commit graph.
 
+### User Templates
+The file format for personal templates is the following:
+
+1. Each template starts off with a ":" and then a name (eg. ":foo")
+2. Each line after that is part of a json-recognizable array.
+3. The array contain values 0-4, 0 being blank and 4 being dark green.
+4. To add multiple templates, just add another name tag as described in 1.
+
+For example:
+
+```
+:center-blank
+[[1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1],
+[1,1,1,0,1,1,1],
+[1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1]]
+```
+
+This would output a 7 x 7 light green square with a single blank center square.
+
+Once you have a file with templates, enter its name when prompted and the templates will be added to the list of options.
+
 ###Removal:
 Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
 
@@ -27,7 +52,7 @@ Fortunately if you regret your gitfiti in the morning, removing it is fairly eas
 ####Todo:
 - ~~Remove 'requests' dependency~~
 - Web interface
-- Load "art" from a file
+- ~~Load "art" from a file~~
 - Load commit content from a file
 - ...
 - Profit?

@@ -89,6 +89,8 @@ images={
 
 def load_images(imgNames):
 	"""loads user images from given file(s)"""
+	if imgNames[0]=='':
+		return dict()
 	for imageName in imgNames:
 		img = open(imageName)
 		loadedImgs = {}

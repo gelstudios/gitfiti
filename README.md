@@ -50,9 +50,9 @@ Fortunately if you regret your gitfiti in the morning, removing it is fairly eas
 
 ---
 ####Todo:
-- ~~Remove 'requests' dependency~~
+- ~~Remove 'requests' dependency~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Web interface
-- ~~Load "art" from a file~~
+- ~~Load "art" from a file~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Load commit content from a file
 - ...
 - Profit?

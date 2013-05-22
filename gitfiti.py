@@ -92,7 +92,6 @@ def load_images(imgNames):
 	for imageName in imgNames:
 		img = open(imageName)
 		loadedImgs = {}
-		first = True
 		imgList = ''
 		imgLine = ' '
 		name = img.readline().replace('\n', '')

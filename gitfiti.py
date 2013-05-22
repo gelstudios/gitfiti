@@ -98,9 +98,10 @@ def load_images(imgNames):
 		name = name[1:]
 
 		while True:
-			imgLine = img.readline().replace('\n', '')
+			imgLine = img.readline()
 			if imgLine == '':
 				break
+			imgLine.replace('\n', '')
 			if(imgLine[0] == ':'):
 				loadedImgs[name] = json.loads(imgList)
 				name = imgLine[1:]

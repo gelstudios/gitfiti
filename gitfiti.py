@@ -2,6 +2,12 @@
 import os, sys, datetime, math, itertools, urllib2, json
 
 title='''
+          _ __  _____ __  _ 
+   ____ _(_) /_/ __(_) /_(_)
+  / __ `/ / __/ /_/ / __/ / 
+ / /_/ / / /_/ __/ / /_/ /  
+ \__, /_/\__/_/ /_/\__/_/   
+/____/ 
 '''
 
 kitty=[
@@ -229,26 +235,31 @@ def save(output, filename):
 
 def main():
 	global images
-	print '''
-          _ __  _____ __  _ 
-   ____ _(_) /_/ __(_) /_(_)
-  / __ `/ / __/ /_/ / __/ / 
- / /_/ / / /_/ __/ / /_/ /  
- \__, /_/\__/_/ /_/\__/_/   
-/____/ 
-'''
-	print 'enter your github username:'
+	print title
+	print 'Enter your github username:'
 	username = raw_input(">")
 	cal = get_calendar(username)
 	m = multiplier(max_commits(cal))
 
-	print 'enter name of the repo to be used by gitfiti:'
+	print 'Enter name of the repo to be used by gitfiti:'
 	repo = raw_input(">")
 	
-	print 'enter weeks to offset the image:'
+	print 'Enter number of weeks to offset the image:'
 	offset = raw_input(">")
 	if offset == None: offset = 0
 	else: offset = int(offset)
+
+	print ('By default gitfiti.py matches the darkest pixel to the highest\n'
+			'number of commits found in your github commit/activity calendar,\n'
+			'\n'
+			'Currently this is : %s commits\n'
+			'\n'
+			'Enter the word "gitfiti" to exceed your max\n'
+			'(this option generates WAY more commits)\n'
+			'Any other input will cause the default matching behavior') % (max_commits(cal),)
+	match = raw_input(">")
+	if match == "gitfiti": match = m
+	else: match = 1
 
 	print 'enter file(s) to load images from (blank if not applicable)'
 	imgNames = raw_input(">").split(' ')
@@ -262,7 +273,7 @@ def main():
 		try: image = images[image]
 		except: image = images['kitty']
 
-	output = fake_it(image, get_start_date(), username, repo, offset, m)
+	output = fake_it(image, get_start_date(), username, repo, offset, m*match)
 	save(output, 'gitfiti.sh')
 	print 'gitfiti.sh saved. Create a new(!) repo at: https://github.com/new and run it.'
 

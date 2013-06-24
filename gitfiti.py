@@ -244,7 +244,7 @@ def main():
 	print 'Enter name of the repo to be used by gitfiti:'
 	repo = raw_input(">")
 	
-	print 'Enter number of weeks to offset the image:'
+	print 'Enter number of weeks to offset the image (from the left):'
 	offset = raw_input(">")
 	if offset == None: offset = 0
 	else: offset = int(offset)

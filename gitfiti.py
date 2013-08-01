@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, sys, datetime, math, itertools, urllib2, json
+import datetime, math, itertools, urllib2, json
 
 title='''
           _ __  _____ __  _ 

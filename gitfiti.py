@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+"""
+gitfiti
+
+noun : Carefully crafted graffiti in a github commit history calendar
+
+"""
 
 import datetime
 import math
@@ -231,9 +237,7 @@ def fake_it(image, start_date, username, repo, offset=0, multiplier=1,
     strings = []
     for value, date in zip(values_in_date_order(image, multiplier),
             date_gen(start_date, offset)):
-        print value, date
         for i in range(value):
-            print i
             strings.append(commit(i, date))
     return template.format(repo, "".join(strings), git_url, username)
 
@@ -244,11 +248,17 @@ def save(output, filename):
     f.close()
 
 def main():
-    global IMAGES
     print TITLE
+    print "Enter github url"
+    ghe = raw_input("Enter nothing for https://github.com/ to be used: ")
     print 'Enter your github username:'
     username = raw_input(">")
-    cal = get_calendar(username)
+    if ghe is None:
+        git_base = "https://github.com/"
+        cal = get_calendar(username)
+    else:
+        cal = get_calendar(username,base_url=ghe)
+        git_base = ghe
     m = multiplier(max_commits(cal))
 
     print 'Enter name of the repo to be used by gitfiti:'
@@ -269,7 +279,7 @@ def main():
            'Enter the word "gitfiti" to exceed your max\n'
            '(this option generates WAY more commits)\n'
            'Any other input will cause the default matching behavior'
-           ).format(max_commits(cal),)
+           ).format(max_commits(cal))
     match = raw_input(">")
     if match == "gitfiti": 
         match = m
@@ -290,11 +300,17 @@ def main():
             image = IMAGES[image]
         except: 
             image = IMAGES['kitty']
+    if ghe is None:
+        output = fake_it(image, get_start_date(), username, repo, offset,
+                m*match)
+    else:
+        git_url = raw_input("Enter git url like git@site.github.com: ")
+        output = fake_it(image, get_start_date(), username, repo, offset,
+                m*match,git_url=git_url)
 
-    output = fake_it(image, get_start_date(), username, repo, offset, m*match)
     save(output, 'gitfiti.sh')
     print 'gitfiti.sh saved.'
-    print 'Create a new(!) repo at: https://github.com/new and run it.'
+    print 'Create a new(!) repo at: {0}new and run it.'.format(git_base)
 
 if __name__ == '__main__':
     main()

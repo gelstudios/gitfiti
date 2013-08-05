@@ -253,7 +253,7 @@ def main():
     ghe = raw_input("Enter nothing for https://github.com/ to be used: ")
     print 'Enter your github username:'
     username = raw_input(">")
-    if ghe is None:
+    if ghe is None or ghe == "":
         git_base = "https://github.com/"
         cal = get_calendar(username)
     else:
@@ -300,7 +300,7 @@ def main():
             image = IMAGES[image]
         except: 
             image = IMAGES['kitty']
-    if ghe is None:
+    if ghe is None or ghe == "":
         output = fake_it(image, get_start_date(), username, repo, offset,
                 m*match)
     else:

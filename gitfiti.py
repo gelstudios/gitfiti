@@ -220,7 +220,7 @@ def values_in_date_order(image, multiplier=1):
 
 def commit(content, commitdate):
     template = ("""echo {0} >> gitfiti\n"""
-    """GIT_AUTHOR_DATE={1} GIT_COMMITTER_DATE={2}\n"""
+    """GIT_AUTHOR_DATE={1} GIT_COMMITTER_DATE={2} """
     """git commit -a -m "gitfiti" > /dev/null\n""")
     return template.format(content, commitdate.isoformat(), 
             commitdate.isoformat())

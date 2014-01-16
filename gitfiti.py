@@ -302,7 +302,7 @@ def main():
         image = IMAGES['kitty']
     else:
         try: 
-            image = IMAGES[image]
+            image = images[image]
         except: 
             image = IMAGES['kitty']
     if ghe is None or ghe == "":

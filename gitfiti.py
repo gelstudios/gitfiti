@@ -170,8 +170,8 @@ def get_calendar(username, base_url='https://github.com/'):
     try:
         page = urllib2.urlopen(url)
     except (urllib2.HTTPError,urllib2.URLError) as e:
-        print "There was a problem fetching data from {0}".format(url)
-        print e
+        print ("There was a problem fetching data from {0}" , format(url))
+        print (e)
         raise SystemExit
     return json.load(page)
 
@@ -253,10 +253,10 @@ def save(output, filename):
     f.close()
 
 def main():
-    print TITLE
-    print "Enter github url"
+    print (TITLE)
+    print ("Enter github url")
     ghe = raw_input("Enter nothing for https://github.com/ to be used: ")
-    print 'Enter your github username:'
+    print ('Enter your github username:')
     username = raw_input(">")
     if ghe is None or ghe == "":
         git_base = "https://github.com/"
@@ -266,10 +266,10 @@ def main():
         git_base = ghe
     m = multiplier(max_commits(cal))
 
-    print 'Enter name of the repo to be used by gitfiti:'
+    print ('Enter name of the repo to be used by gitfiti:')
     repo = raw_input(">")
 
-    print 'Enter number of weeks to offset the image (from the left):'
+    print ('Enter number of weeks to offset the image (from the left):')
     offset = raw_input(">")
     if offset == None:
         offset = 0
@@ -291,12 +291,12 @@ def main():
     else: 
         match = 1
 
-    print 'enter file(s) to load images from (blank if not applicable)'
+    print ('enter file(s) to load images from (blank if not applicable)')
     img_names = raw_input(">").split(' ')
     images = dict(IMAGES, **load_images(img_names))
 
-    print 'enter the image name to gitfiti'
-    print 'images: ' + ", ".join(images.keys())
+    print ('enter the image name to gitfiti')
+    print ('images: ' + ", ".join(images.keys()))
     image = raw_input(">")
     if image == None:
         image = IMAGES['kitty']
@@ -314,8 +314,9 @@ def main():
                 m*match,git_url=git_url)
 
     save(output, 'gitfiti.sh')
-    print 'gitfiti.sh saved.'
-    print 'Create a new(!) repo at: {0}new and run it.'.format(git_base)
+    print ('gitfiti.sh saved.')
+    print ('Create a new(!) repo at: {0}new and run it.' , format(git_base))
+    pause
 
 if __name__ == '__main__':
     main()

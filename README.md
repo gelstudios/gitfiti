@@ -48,14 +48,25 @@ Once you have a file with templates, enter its name when prompted and the templa
 ###Removal:
 Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
 
+###License:
+gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses/MIT)
+
 ---
 ####Todo:
 - ~~Remove 'requests' dependency~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Web interface
 - ~~Load "art" from a file~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Load commit content from a file
+- Text/alphabet option
 - ...
 - Profit?
+
+####Notable derivatives or mentions:
+- [Pikesley's](https://github.com/pikesley) Pokrovsky, which offers Github History Vandalism [as a Service!](http://pokrovsky.herokuapp.com/)
+- [github-board](https://github.com/bayandin/github-board)
+- Seen something else? Submit a pull request or open an issue!
+
+
   
   
 ![alt text](http://f.cl.ly/items/0J463J0K1N020S1Q3E3l/er-small.png "tiny logo")

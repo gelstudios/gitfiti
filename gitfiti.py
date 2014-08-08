@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#
+# Copyright (c) 2013 Eric Romano (@gelstudios)
+# released under The MIT license (MIT) http://opensource.org/licenses/MIT
+#
 """
 gitfiti
 

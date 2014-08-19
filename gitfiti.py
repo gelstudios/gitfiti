@@ -170,13 +170,20 @@ def load_images(img_names):
 
 def get_calendar(username, base_url='https://github.com/'):
     """retrieves the github commit calendar data for a username"""
-    url = base_url + 'users/' + username + '/contributions_calendar_data'
-    try:
+    base_url = base_url + 'users/' + username
+    try:        
+        url = base_url + '/contributions'
         page = urllib2.urlopen(url)
     except (urllib2.HTTPError,urllib2.URLError) as e:
-        print "There was a problem fetching data from {0}".format(url)
-        print e
-        raise SystemExit
+        print ("There was a problem fetching data from {0}".format(url))
+        print (e)
+        try:
+            url = base_url + '/contributions_calendar_data'
+            page = urllib2.urlopen(url)
+        except (urllib2.HTTPError,urllib2.URLError) as e:
+            print ("There was a problem fetching data from {0}".format(url))
+            print (e)
+            raise SystemExit
     return json.load(page)
 
 def max_commits(input):

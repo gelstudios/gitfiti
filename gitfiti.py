@@ -326,8 +326,7 @@ def main():
 
     save(output, 'gitfiti.sh')
     print ('gitfiti.sh saved.')
-    print ('Create a new(!) repo at: {0}new and run it.' , format(git_base))
-    pause
+    print ('Create a new(!) repo at: {0}new and run it.'.format(git_base))
 
 if __name__ == '__main__':
     main()

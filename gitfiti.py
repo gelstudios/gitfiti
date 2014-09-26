@@ -177,20 +177,18 @@ def get_calendar(username, base_url='https://github.com/'):
     except (urllib2.HTTPError,urllib2.URLError) as e:
         print ("There was a problem fetching data from {0}".format(url))
         print (e)
-        try:
-            url = base_url + '/contributions_calendar_data'
-            page = urllib2.urlopen(url)
-        except (urllib2.HTTPError,urllib2.URLError) as e:
-            print ("There was a problem fetching data from {0}".format(url))
-            print (e)
-            raise SystemExit
-    return json.load(page)
+        raise SystemExit
+    return page.readlines()
 
 def max_commits(input):
     """finds the highest number of commits in one day"""
     output = set()
-    for i, j in enumerate(input):
-        output.add(input[i][1])
+    for line in input:
+        for day in line.split():
+            if "data-count=" in day:
+                commit = day.split('=')[1]
+                commit = commit.strip('"')
+                output.add(int(commit))
     output = list(output)
     output.sort()
     output.reverse()

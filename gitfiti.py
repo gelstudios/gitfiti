@@ -267,7 +267,7 @@ def main():
     ghe = raw_input("Enter nothing for https://github.com/ to be used: ")
     print ('Enter your github username:')
     username = raw_input(">")
-    if ghe is None or ghe == "":
+    if not ghe:
         git_base = "https://github.com/"
         cal = get_calendar(username)
     else:
@@ -307,14 +307,14 @@ def main():
     print ('enter the image name to gitfiti')
     print ('images: ' + ", ".join(images.keys()))
     image = raw_input(">")
-    if image == None:
+    if not image:
         image = IMAGES['kitty']
     else:
         try: 
             image = images[image]
         except: 
             image = IMAGES['kitty']
-    if ghe is None or ghe == "":
+    if not ghe:
         output = fake_it(image, get_start_date(), username, repo, offset,
                 m*match)
     else:

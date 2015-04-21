@@ -63,8 +63,8 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 
 ####Notable derivatives or mentions:
 - [Pikesley's](https://github.com/pikesley) Pokrovsky, which offers Github History Vandalism [as a Service!](http://pokrovsky.herokuapp.com/)
-- [github-board](https://github.com/bayandin/github-board)
-- [ghdecoy](https://github.com/tickelton/ghdecoy)
+- [github-board](https://github.com/bayandin/github-board) commits gitfiti from easy templates
+- [ghdecoy](https://github.com/tickelton/ghdecoy) fills the contribution graph with random data (sneaky!)
 - Seen something else? Submit a pull request or open an issue!
 
 

@@ -16,6 +16,43 @@ import itertools
 import urllib2
 import json
 
+import os, sys
+from PIL import Image
+
+size = 40, 7
+
+def from_image(fin):
+    fout = os.path.splitext(fin)[0] + ".thumb.png"
+    if fin != fout:
+        try:
+            img = Image.open(fin).convert('LA').convert('RGB')
+            img.thumbnail(size)
+            width, height = img.size
+            print height
+            pic = [[] for i in range(height)]
+            for i, px in enumerate(img.getdata()):
+                y = i / width
+                x = i % width
+                if px[1] < 51:
+                    pic[y].append(0)
+                    img.putpixel((x, y), (256, 256, 256))
+                elif px[1] < 102:
+                    pic[y].append(1)
+                    img.putpixel((x, y), (192, 192, 192))
+                elif px[1] < 153:
+                    pic[y].append(2)
+                    img.putpixel((x, y), (128, 128, 128))
+                elif px[1] < 204:
+                    pic[y].append(3)
+                    img.putpixel((x, y), (64, 64, 64))
+                else:
+                    pic[y].append(4)
+                    img.putpixel((x, y), (0, 0, 0))
+            img.save(fout, "PNG")
+            return pic
+        except IOError:
+            print("Creating thumbnail for '%s' failed" % fin)
+
 TITLE = '''
           _ __  _____ __  _ 
    ____ _(_) /_/ __(_) /_(_)
@@ -306,14 +343,18 @@ def main():
 
     print ('enter the image name to gitfiti')
     print ('images: ' + ", ".join(images.keys()))
+    print ('or enter a filename')
     image = raw_input(">")
     if not image:
         image = IMAGES['kitty']
     else:
-        try: 
-            image = images[image]
-        except: 
-            image = IMAGES['kitty']
+        try:
+            image = from_image(image)
+        except:
+            try:
+                image = images[image]
+            except: 
+                image = IMAGES['kitty']
     if not ghe:
         output = fake_it(image, get_start_date(), username, repo, offset,
                 m*match)

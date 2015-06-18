@@ -15,43 +15,8 @@ import math
 import itertools
 import urllib2
 import json
-
 import os, sys
 from PIL import Image
-
-size = 40, 7
-
-def from_image(fin):
-    fout = os.path.splitext(fin)[0] + ".thumb.png"
-    if fin != fout:
-        try:
-            img = Image.open(fin).convert('LA').convert('RGB')
-            img.thumbnail(size)
-            width, height = img.size
-            print height
-            pic = [[] for i in range(height)]
-            for i, px in enumerate(img.getdata()):
-                y = i / width
-                x = i % width
-                if px[1] < 51:
-                    pic[y].append(0)
-                    img.putpixel((x, y), (256, 256, 256))
-                elif px[1] < 102:
-                    pic[y].append(1)
-                    img.putpixel((x, y), (192, 192, 192))
-                elif px[1] < 153:
-                    pic[y].append(2)
-                    img.putpixel((x, y), (128, 128, 128))
-                elif px[1] < 204:
-                    pic[y].append(3)
-                    img.putpixel((x, y), (64, 64, 64))
-                else:
-                    pic[y].append(4)
-                    img.putpixel((x, y), (0, 0, 0))
-            img.save(fout, "PNG")
-            return pic
-        except IOError:
-            print("Creating thumbnail for '%s' failed" % fin)
 
 TITLE = '''
           _ __  _____ __  _ 
@@ -204,6 +169,41 @@ def load_images(img_names):
                 img_list += img_line
         loaded_imgs[name] = json.loads(img_list)
         return loaded_imgs
+
+
+max_size = 40, 7
+
+def from_image(fin):
+    fout = os.path.splitext(fin)[0] + ".thumb.png"
+    if fin != fout:
+        try:
+            img = Image.open(fin).convert('LA').convert('RGB')
+            img.thumbnail(max_size)
+            width, height = img.size
+            print height
+            pic = [[] for i in range(height)]
+            for i, px in enumerate(img.getdata()):
+                y = i / width
+                x = i % width
+                if px[1] < 51:
+                    pic[y].append(0)
+                    img.putpixel((x, y), (256, 256, 256))
+                elif px[1] < 102:
+                    pic[y].append(1)
+                    img.putpixel((x, y), (192, 192, 192))
+                elif px[1] < 153:
+                    pic[y].append(2)
+                    img.putpixel((x, y), (128, 128, 128))
+                elif px[1] < 204:
+                    pic[y].append(3)
+                    img.putpixel((x, y), (64, 64, 64))
+                else:
+                    pic[y].append(4)
+                    img.putpixel((x, y), (0, 0, 0))
+            img.save(fout, "PNG")
+            return pic
+        except IOError:
+            print("Creating thumbnail for '%s' failed" % fin)
 
 def get_calendar(username, base_url='https://github.com/'):
     """retrieves the github commit calendar data for a username"""

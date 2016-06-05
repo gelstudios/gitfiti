@@ -326,10 +326,10 @@ def main():
 
     if not ghe:
         git_base = GITHUB_BASE_URL
-        cal = get_calendar(username, git_base)
     else:
-        cal = get_calendar(username, ghe)
         git_base = ghe
+
+    cal = get_calendar(username, git_base)
 
     m = calculate_multiplier(find_max_commits(cal))
 
@@ -380,12 +380,11 @@ def main():
 
     if not ghe:
         git_url = 'git@github.com'
-        output = fake_it(image, start_date, username, repo, git_url, offset,
-                         fake_it_multiplier)
     else:
         git_url = request_user_input('Enter Git URL like git@site.github.com: ')
-        output = fake_it(image, start_date, username, repo, git_url, offset,
-                         fake_it_multiplier)
+
+    output = fake_it(image, start_date, username, repo, git_url, offset,
+                     fake_it_multiplier)
 
     save(output, 'gitfiti.sh')
     print('gitfiti.sh saved.')

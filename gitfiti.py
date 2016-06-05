@@ -13,7 +13,13 @@ from datetime import datetime, timedelta
 import itertools
 import json
 import math
-import urllib2
+try:
+    # Python 3+
+    from urllib.error import HTTPError, URLError
+    from urllib.request import urlopen
+except ImportError:
+    # Python 2
+    from urllib2 import HTTPError, URLError, urlopen
 
 
 GITHUB_BASE_URL = 'https://github.com/'
@@ -199,8 +205,8 @@ def get_calendar(username, base_url):
 
     try:        
         url = base_url + '/contributions'
-        page = urllib2.urlopen(url)
-    except (urllib2.HTTPError, urllib2.URLError) as e:
+        page = urlopen(url)
+    except (HTTPError, URLError) as e:
         print('There was a problem fetching data from {0}'.format(url))
         print(e)
         raise SystemExit

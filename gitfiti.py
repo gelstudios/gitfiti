@@ -21,6 +21,13 @@ except ImportError:
     # Python 2
     from urllib2 import HTTPError, URLError, urlopen
 
+try:
+    # Python 2
+    raw_input
+except NameError:
+    # Python 3 (Python 2's `raw_input` was renamed to `input`)
+    raw_input = input
+
 
 GITHUB_BASE_URL = 'https://github.com/'
 

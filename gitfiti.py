@@ -278,8 +278,7 @@ def commit(content, commitdate):
             commitdate.isoformat())
 
 
-def fake_it(image, start_date, username, repo, offset=0, multiplier=1,
-            git_url='git@github.com'):
+def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
     template = (
         '#!/bin/bash\n'
         'REPO={0}\n'
@@ -380,12 +379,13 @@ def main():
     fake_it_multiplier = m * match
 
     if not ghe:
-        output = fake_it(image, start_date, username, repo, offset,
+        git_url = 'git@github.com'
+        output = fake_it(image, start_date, username, repo, git_url, offset,
                          fake_it_multiplier)
     else:
         git_url = request_user_input('Enter Git URL like git@site.github.com: ')
-        output = fake_it(image, start_date, username, repo, offset,
-                         fake_it_multiplier, git_url=git_url)
+        output = fake_it(image, start_date, username, repo, git_url, offset,
+                         fake_it_multiplier)
 
     save(output, 'gitfiti.sh')
     print('gitfiti.sh saved.')

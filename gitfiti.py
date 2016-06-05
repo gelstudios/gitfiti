@@ -133,7 +133,7 @@ def str_to_sprite(content):
     lines = filter(is_empty_line, lines)
 
     # Break up lines into each character
-    split_lines = map(list, lines)
+    split_lines = [list(line) for line in lines]
 
     # Replace each character with its numeric equivalent
     for line in split_lines:

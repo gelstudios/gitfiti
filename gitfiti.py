@@ -16,6 +16,9 @@ import math
 import urllib2
 
 
+GITHUB_BASE_URL = 'https://github.com/'
+
+
 TITLE = '''
           _ __  _____ __  _ 
    ____ _(_) /_/ __(_) /_(_)
@@ -190,7 +193,7 @@ def load_images(img_names):
         return loaded_imgs
 
 
-def get_calendar(username, base_url='https://github.com/'):
+def get_calendar(username, base_url=GITHUB_BASE_URL):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
@@ -316,13 +319,14 @@ def main():
     print(TITLE)
 
     print('Enter GitHub URL')
-    ghe = request_user_input('Enter nothing for https://github.com/ to be used: ')
+    ghe = request_user_input('Enter nothing for {} to be used: '
+                             .format(GITHUB_BASE_URL))
 
     print('Enter your GitHub username:')
     username = request_user_input()
 
     if not ghe:
-        git_base = 'https://github.com/'
+        git_base = GITHUB_BASE_URL
         cal = get_calendar(username)
     else:
         cal = get_calendar(username, base_url=ghe)

@@ -6,7 +6,7 @@
 """
 gitfiti
 
-noun : Carefully crafted graffiti in a github commit history calendar
+noun : Carefully crafted graffiti in a GitHub commit history calendar
 """
 
 from datetime import datetime, timedelta
@@ -191,7 +191,7 @@ def load_images(img_names):
 
 
 def get_calendar(username, base_url='https://github.com/'):
-    """retrieves the github commit calendar data for a username"""
+    """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
     try:        
@@ -223,7 +223,7 @@ def max_commits(calendar):
 
 
 def multiplier(max_commits):
-    """calculates a multiplier to scale github colors to commit history"""
+    """calculates a multiplier to scale GitHub colors to commit history"""
     m = max_commits / 4.0
 
     if m == 0:
@@ -310,10 +310,10 @@ def save(output, filename):
 def main():
     print(TITLE)
 
-    print('Enter github url')
+    print('Enter GitHub URL')
     ghe = raw_input('Enter nothing for https://github.com/ to be used: ')
 
-    print('Enter your github username:')
+    print('Enter your GitHub username:')
     username = raw_input('>')
 
     if not ghe:
@@ -338,7 +338,7 @@ def main():
 
     print((
         'By default gitfiti.py matches the darkest pixel to the highest\n'
-        'number of commits found in your github commit/activity calendar,\n'
+        'number of commits found in your GitHub commit/activity calendar,\n'
         '\n'
         'Currently this is: {0} commits\n'
         '\n'
@@ -374,7 +374,7 @@ def main():
         output = fake_it(image, get_start_date(), username, repo,
                          offset, m * match)
     else:
-        git_url = raw_input('Enter git url like git@site.github.com: ')
+        git_url = raw_input('Enter Git URL like git@site.github.com: ')
         output = fake_it(image, get_start_date(), username, repo,
                          offset, m * match, git_url=git_url)
 

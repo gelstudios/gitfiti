@@ -359,27 +359,33 @@ def main():
     print('enter file(s) to load images from (blank if not applicable)')
     img_names = request_user_input().split(' ')
 
-    images = dict(IMAGES, **load_images(img_names))
+    loaded_images = load_images(img_names)
+    images = dict(IMAGES, **loaded_images)
 
     print('enter the image name to gitfiti')
     print('images: ' + ', '.join(images.keys()))
     image = request_user_input()
 
+    image_name_fallback = 'kitty'
+
     if not image:
-        image = IMAGES['kitty']
+        image = IMAGES[image_name_fallback]
     else:
         try: 
             image = images[image]
         except: 
-            image = IMAGES['kitty']
+            image = IMAGES[image_name_fallback]
+
+    start_date = get_start_date()
+    fake_it_multiplier = m * match
 
     if not ghe:
-        output = fake_it(image, get_start_date(), username, repo,
-                         offset, m * match)
+        output = fake_it(image, start_date, username, repo, offset,
+                         fake_it_multiplier)
     else:
         git_url = request_user_input('Enter Git URL like git@site.github.com: ')
-        output = fake_it(image, get_start_date(), username, repo,
-                         offset, m * match, git_url=git_url)
+        output = fake_it(image, start_date, username, repo, offset,
+                         fake_it_multiplier, git_url=git_url)
 
     save(output, 'gitfiti.sh')
     print('gitfiti.sh saved.')

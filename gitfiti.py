@@ -205,11 +205,11 @@ def get_calendar(username, base_url='https://github.com/'):
     return page.readlines()
 
 
-def max_commits(input):
+def max_commits(calendar):
     """finds the highest number of commits in one day"""
     output = set()
 
-    for line in input:
+    for line in calendar:
         for day in line.split():
             if 'data-count=' in day:
                 commit = day.split('=')[1]

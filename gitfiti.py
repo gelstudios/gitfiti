@@ -328,7 +328,9 @@ def main():
 
     cal = get_calendar(username, git_base)
 
-    m = calculate_multiplier(find_max_commits(cal))
+    max_commits = find_max_commits(cal)
+
+    m = calculate_multiplier(max_commits)
 
     print('Enter name of the repo to be used by gitfiti:')
     repo = request_user_input()
@@ -347,7 +349,7 @@ def main():
         'Enter the word "gitfiti" to exceed your max\n'
         '(this option generates WAY more commits)\n'
         'Any other input will cause the default matching behavior'
-    ).format(find_max_commits(cal)))
+    ).format(max_commits))
     match = request_user_input()
 
     match = m if (match == 'gitfiti') else 1

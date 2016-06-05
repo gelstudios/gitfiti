@@ -193,7 +193,7 @@ def load_images(img_names):
         return loaded_imgs
 
 
-def get_calendar(username, base_url=GITHUB_BASE_URL):
+def get_calendar(username, base_url):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
@@ -327,9 +327,9 @@ def main():
 
     if not ghe:
         git_base = GITHUB_BASE_URL
-        cal = get_calendar(username)
+        cal = get_calendar(username, git_base)
     else:
-        cal = get_calendar(username, base_url=ghe)
+        cal = get_calendar(username, ghe)
         git_base = ghe
 
     m = calculate_multiplier(find_max_commits(cal))

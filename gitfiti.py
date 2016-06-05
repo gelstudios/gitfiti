@@ -324,10 +324,7 @@ def main():
     print('Enter your GitHub username:')
     username = request_user_input()
 
-    if not ghe:
-        git_base = GITHUB_BASE_URL
-    else:
-        git_base = ghe
+    git_base = ghe if ghe else GITHUB_BASE_URL
 
     cal = get_calendar(username, git_base)
 

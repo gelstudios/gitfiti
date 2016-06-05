@@ -336,10 +336,7 @@ def main():
     print('Enter the number of weeks to offset the image (from the left):')
     offset = request_user_input()
 
-    if not offset.strip():
-        offset = 0
-    else:
-        offset = int(offset)
+    offset = int(offset) if offset.strip() else 0
 
     print((
         'By default gitfiti.py matches the darkest pixel to the highest\n'
@@ -353,10 +350,7 @@ def main():
     ).format(max_commits(cal)))
     match = request_user_input()
 
-    if match == 'gitfiti': 
-        match = m
-    else: 
-        match = 1
+    match = m if (match == 'gitfiti') else 1
 
     print('enter file(s) to load images from (blank if not applicable)')
     img_names = request_user_input().split(' ')

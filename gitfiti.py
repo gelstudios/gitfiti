@@ -205,7 +205,7 @@ def get_calendar(username, base_url='https://github.com/'):
     return page.readlines()
 
 
-def max_commits(calendar):
+def find_max_commits(calendar):
     """finds the highest number of commits in one day"""
     output = set()
 
@@ -222,7 +222,7 @@ def max_commits(calendar):
     return output[0]
 
 
-def multiplier(max_commits):
+def calculate_multiplier(max_commits):
     """calculates a multiplier to scale GitHub colors to commit history"""
     m = max_commits / 4.0
 
@@ -248,7 +248,7 @@ def get_start_date():
     return date
 
 
-def date_gen(start_date, offset=0):
+def generate_next_dates(start_date, offset=0):
     """generator that returns the next date, requires a datetime object as
     input. The offset is in weeks"""
     start = offset * 7
@@ -256,7 +256,7 @@ def date_gen(start_date, offset=0):
         yield start_date + timedelta(i)
 
 
-def values_in_date_order(image, multiplier=1):
+def generate_values_in_date_order(image, multiplier=1):
     height = 7
     width = len(image[0])
 
@@ -293,8 +293,8 @@ def fake_it(image, start_date, username, repo, offset=0, multiplier=1,
     )
 
     strings = []
-    for value, date in zip(values_in_date_order(image, multiplier),
-            date_gen(start_date, offset)):
+    for value, date in zip(generate_values_in_date_order(image, multiplier),
+            generate_next_dates(start_date, offset)):
         for i in range(value):
             strings.append(commit(i, date))
 
@@ -328,7 +328,7 @@ def main():
         cal = get_calendar(username, base_url=ghe)
         git_base = ghe
 
-    m = multiplier(max_commits(cal))
+    m = calculate_multiplier(find_max_commits(cal))
 
     print('Enter name of the repo to be used by gitfiti:')
     repo = request_user_input()
@@ -347,7 +347,7 @@ def main():
         'Enter the word "gitfiti" to exceed your max\n'
         '(this option generates WAY more commits)\n'
         'Any other input will cause the default matching behavior'
-    ).format(max_commits(cal)))
+    ).format(find_max_commits(cal)))
     match = request_user_input()
 
     match = m if (match == 'gitfiti') else 1

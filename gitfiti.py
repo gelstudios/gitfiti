@@ -303,9 +303,8 @@ def fake_it(image, start_date, username, repo, offset=0, multiplier=1,
 
 def save(output, filename):
     """Saves the list to a given filename"""
-    f = open(filename, "w")
-    f.write(output)
-    f.close()
+    with open(filename, "w") as f:
+        f.write(output)
 
 
 def main():

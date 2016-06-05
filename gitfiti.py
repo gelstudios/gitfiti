@@ -9,7 +9,7 @@ gitfiti
 noun : Carefully crafted graffiti in a github commit history calendar
 """
 
-import datetime
+from datetime import datetime, timedelta
 import itertools
 import json
 import math
@@ -237,13 +237,13 @@ def multiplier(max_commits):
 def get_start_date():
     """returns a datetime object for the first sunday after one year ago today
     at 12:00 noon"""
-    d = datetime.datetime.today()
-    date = datetime.datetime(d.year - 1, d.month, d.day, 12)
-    weekday = datetime.datetime.weekday(date)
+    d = datetime.today()
+    date = datetime(d.year - 1, d.month, d.day, 12)
+    weekday = datetime.weekday(date)
 
     while weekday < 6:
-        date = date + datetime.timedelta(1)
-        weekday = datetime.datetime.weekday(date)
+        date = date + timedelta(1)
+        weekday = datetime.weekday(date)
 
     return date
 
@@ -253,7 +253,7 @@ def date_gen(start_date, offset=0):
     input. The offset is in weeks"""
     start = offset * 7
     for i in itertools.count(start):
-        yield start_date + datetime.timedelta(i)
+        yield start_date + timedelta(i)
 
 
 def values_in_date_order(image, multiplier=1):

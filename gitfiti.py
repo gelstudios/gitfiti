@@ -219,7 +219,7 @@ def get_calendar(username, base_url):
         print(e)
         raise SystemExit
 
-    return page.readlines()
+    return page.read().decode('utf-8').splitlines()
 
 
 def find_max_commits(calendar):

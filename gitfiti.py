@@ -330,12 +330,10 @@ def request_user_input(prompt='> '):
 def main():
     print(TITLE)
 
-    print('Enter GitHub URL')
-    ghe = request_user_input('Enter nothing for {} to be used: '
-                             .format(GITHUB_BASE_URL))
+    ghe = request_user_input(
+        'Enter GitHub URL (leave blank to use {}): '.format(GITHUB_BASE_URL))
 
-    print('Enter your GitHub username:')
-    username = request_user_input()
+    username = request_user_input('Enter your GitHub username: ')
 
     git_base = ghe if ghe else GITHUB_BASE_URL
 
@@ -345,11 +343,11 @@ def main():
 
     m = calculate_multiplier(max_commits)
 
-    print('Enter name of the repo to be used by gitfiti:')
-    repo = request_user_input()
+    repo = request_user_input(
+        'Enter the name of the repository to use by gitfiti: ')
 
-    print('Enter the number of weeks to offset the image (from the left):')
-    offset = request_user_input()
+    offset = request_user_input(
+        'Enter the number of weeks to offset the image (from the left): ')
 
     offset = int(offset) if offset.strip() else 0
 
@@ -367,14 +365,14 @@ def main():
 
     match = m if (match == 'gitfiti') else 1
 
-    print('enter file(s) to load images from (blank if not applicable)')
+    print('Enter file(s) to load images from (blank if not applicable)')
     img_names = request_user_input().split(' ')
 
     loaded_images = load_images(img_names)
     images = dict(IMAGES, **loaded_images)
 
-    print('enter the image name to gitfiti')
-    print('images: ' + ', '.join(images.keys()))
+    print('Enter the image name to gitfiti')
+    print('Images: ' + ', '.join(images.keys()))
     image = request_user_input()
 
     image_name_fallback = 'kitty'
@@ -400,7 +398,7 @@ def main():
 
     save(output, 'gitfiti.sh')
     print('gitfiti.sh saved.')
-    print('Create a new(!) repo at: {0}new and run it.'.format(git_base))
+    print('Create a new(!) repo at {0}new and run the script'.format(git_base))
 
 
 if __name__ == '__main__':

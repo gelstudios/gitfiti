@@ -307,14 +307,19 @@ def save(output, filename):
         f.write(output)
 
 
+def request_user_input(prompt='> '):
+    """Request input from the user and return what has been entered."""
+    return raw_input(prompt)
+
+
 def main():
     print(TITLE)
 
     print('Enter GitHub URL')
-    ghe = raw_input('Enter nothing for https://github.com/ to be used: ')
+    ghe = request_user_input('Enter nothing for https://github.com/ to be used: ')
 
     print('Enter your GitHub username:')
-    username = raw_input('>')
+    username = request_user_input()
 
     if not ghe:
         git_base = 'https://github.com/'
@@ -326,10 +331,10 @@ def main():
     m = multiplier(max_commits(cal))
 
     print('Enter name of the repo to be used by gitfiti:')
-    repo = raw_input('>')
+    repo = request_user_input()
 
     print('Enter the number of weeks to offset the image (from the left):')
-    offset = raw_input('>')
+    offset = request_user_input()
 
     if not offset.strip():
         offset = 0
@@ -346,7 +351,7 @@ def main():
         '(this option generates WAY more commits)\n'
         'Any other input will cause the default matching behavior'
     ).format(max_commits(cal)))
-    match = raw_input('>')
+    match = request_user_input()
 
     if match == 'gitfiti': 
         match = m
@@ -354,13 +359,13 @@ def main():
         match = 1
 
     print('enter file(s) to load images from (blank if not applicable)')
-    img_names = raw_input('>').split(' ')
+    img_names = request_user_input().split(' ')
 
     images = dict(IMAGES, **load_images(img_names))
 
     print('enter the image name to gitfiti')
     print('images: ' + ', '.join(images.keys()))
-    image = raw_input('>')
+    image = request_user_input()
 
     if not image:
         image = IMAGES['kitty']
@@ -374,7 +379,7 @@ def main():
         output = fake_it(image, get_start_date(), username, repo,
                          offset, m * match)
     else:
-        git_url = raw_input('Enter Git URL like git@site.github.com: ')
+        git_url = request_user_input('Enter Git URL like git@site.github.com: ')
         output = fake_it(image, get_start_date(), username, repo,
                          offset, m * match, git_url=git_url)
 

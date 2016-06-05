@@ -30,6 +30,7 @@ except NameError:
 
 
 GITHUB_BASE_URL = 'https://github.com/'
+FALLBACK_IMAGE = 'kitty'
 
 
 TITLE = '''
@@ -375,7 +376,7 @@ def main():
     print('Images: ' + ', '.join(images.keys()))
     image = request_user_input()
 
-    image_name_fallback = 'kitty'
+    image_name_fallback = FALLBACK_IMAGE
 
     if not image:
         image = IMAGES[image_name_fallback]

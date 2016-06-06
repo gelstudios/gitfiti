@@ -16,7 +16,6 @@ import itertools
 import urllib2
 import json
 import os, sys
-from PIL import Image
 
 TITLE = '''
           _ __  _____ __  _ 
@@ -174,6 +173,12 @@ def load_images(img_names):
 max_size = 40, 7
 
 def from_image(fin):
+    try:
+        from PIL import Image
+    except ImportError:
+        print 'Error: No imaging library is installed'
+        print 'Run "pip install Pillow" before using this functionality'
+        sys.exit(1)
     fout = os.path.splitext(fin)[0] + ".thumb.png"
     if fin != fout:
         try:

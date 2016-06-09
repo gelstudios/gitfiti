@@ -3,6 +3,8 @@ python:
   - "2.7"
   - "3.4"
   - "3.5"
+  - "3.5-dev"
+  - "nightly"
 install:
   - "pip install pytest"
 script:

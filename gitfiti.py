@@ -222,17 +222,19 @@ def retrieve_contributions_calendar(username, base_url):
     return page.read().decode('utf-8')
 
 
-def find_max_daily_commits(contributions_calendar):
-    """finds the highest number of commits in one day"""
-    output = set()
-
+def parse_contributions_calendar(contributions_calendar):
+    """Yield daily counts extracted from the contributions SVG."""
     for line in contributions_calendar.splitlines():
         for day in line.split():
             if 'data-count=' in day:
                 commit = day.split('=')[1]
                 commit = commit.strip('"')
-                output.add(int(commit))
+                yield int(commit)
 
+
+def find_max_daily_commits(contributions_calendar):
+    """finds the highest number of commits in one day"""
+    output = parse_contributions_calendar(contributions_calendar)
     output = list(output)
     output.sort()
     output.reverse()

@@ -1,4 +1,4 @@
-from gitfiti import find_max_daily_commits
+from gitfiti import find_max_daily_commits, parse_contributions_calendar
 
 
 CONTRIBUTIONS_CALENDAR_SVG = '''\
@@ -69,6 +69,20 @@ CONTRIBUTIONS_CALENDAR_SVG = '''\
   </g>
 </svg>
 '''
+
+
+def test_parse_contributions_calendar():
+    expected = [
+        0, 0, 0, 0, 6, 0, 0,
+        0, 0, 0, 0, 0, 0, 6,
+        84, 16, 4, 8, 0, 0, 0,
+        0, 25, 66, 20, 10, 0, 0,
+        33, 9, 0, 0, 7,
+    ]
+
+    actual = parse_contributions_calendar(CONTRIBUTIONS_CALENDAR_SVG)
+
+    assert list(actual) == expected
 
 
 def test_find_max_daily_commits():

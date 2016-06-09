@@ -1,2 +1,6 @@
 *.pyc
 gitfiti.sh
+build/
+dist/
+gitfiti.egg-info/
+

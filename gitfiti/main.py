@@ -353,7 +353,7 @@ def main():
     offset = int(offset) if offset.strip() else 0
 
     print((
-        'By default gitfiti.py matches the darkest pixel to the highest\n'
+        'By default main.py matches the darkest pixel to the highest\n'
         'number of commits found in your GitHub commit/activity calendar,\n'
         '\n'
         'Currently this is: {0} commits\n'

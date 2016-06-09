@@ -125,7 +125,7 @@ HIREME = [
 
 
 ASCII_TO_NUMBER = {
-  '_': 0,
+  '-': 0,
   '_': 1,
   '~': 2,
   '=': 3,
@@ -211,7 +211,7 @@ def get_calendar(username, base_url):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
-    try:        
+    try:
         url = base_url + '/contributions'
         page = urlopen(url)
     except (HTTPError, URLError) as e:
@@ -288,7 +288,7 @@ def commit(content, commitdate):
         '''GIT_AUTHOR_DATE={1} GIT_COMMITTER_DATE={2} '''
         '''git commit -a -m "gitfiti" > /dev/null\n'''
     )
-    return template.format(content, commitdate.isoformat(), 
+    return template.format(content, commitdate.isoformat(),
             commitdate.isoformat())
 
 
@@ -381,9 +381,9 @@ def main():
     if not image:
         image = IMAGES[image_name_fallback]
     else:
-        try: 
+        try:
             image = images[image]
-        except: 
+        except:
             image = IMAGES[image_name_fallback]
 
     start_date = get_start_date()

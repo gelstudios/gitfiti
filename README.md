@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gelstudios/gitfiti.svg?branch=master)](https://travis-ci.org/gelstudios/gitfiti)
+
 gitfiti _noun_ : Carefully crafted graffiti in a github commit history calendar.  
 
 An example of gitfiti in the wild:  
@@ -8,8 +10,8 @@ An example of gitfiti in the wild:
 How?  `gitfiti.py` generates a bash script: `gitfiti.sh` that makes commits with the GIT_AUTHOR_DATE and GIT_COMMITTER_DATE environment variables set for each targeted pixel.
 
 Since this is likely to clobber repo's history, I highly recommend that you create a _new_ github repo when using gitfiti. Also, the generated bash script assumes you are using public-key authentication with git.
-  
-  
+
+
 ###Pixel Art:
 ![alt text](https://raw.github.com/gelstudios/gitfiti/master/pixels-large.png "pixel art")  
 Included "art" from left to right: kitty, oneup, oneup2, hackerschool, octocat, octocat2
@@ -54,7 +56,7 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 ---
 ####Todo:
 - ~~Remove 'requests' dependency~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
-- Web interface
+- ~~Web interface~~ See several web-based things below
 - ~~Load "art" from a file~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Load commit content from a file
 - Text/alphabet option

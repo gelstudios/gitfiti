@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import itertools
 import json
 import math
+
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -28,10 +29,8 @@ except NameError:
     # Python 3 (Python 2's `raw_input` was renamed to `input`)
     raw_input = input
 
-
 GITHUB_BASE_URL = 'https://github.com/'
 FALLBACK_IMAGE = 'kitty'
-
 
 TITLE = '''
           _ __  _____ __  _ 
@@ -42,102 +41,102 @@ TITLE = '''
 /____/ 
 '''
 
-
 KITTY = [
-  [0,0,0,4,0,0,0,0,4,0,0,0],
-  [0,0,4,2,4,4,4,4,2,4,0,0],
-  [0,0,4,2,2,2,2,2,2,4,0,0],
-  [2,2,4,2,4,2,2,4,2,4,2,2],
-  [0,0,4,2,2,3,3,2,2,4,0,0],
-  [2,2,4,2,2,2,2,2,2,4,2,2],
-  [0,0,0,3,4,4,4,4,3,0,0,0],
+    [0, 0, 0, 4, 0, 0, 0, 0, 4, 0, 0, 0],
+    [0, 0, 4, 2, 4, 4, 4, 4, 2, 4, 0, 0],
+    [0, 0, 4, 2, 2, 2, 2, 2, 2, 4, 0, 0],
+    [2, 2, 4, 2, 4, 2, 2, 4, 2, 4, 2, 2],
+    [0, 0, 4, 2, 2, 3, 3, 2, 2, 4, 0, 0],
+    [2, 2, 4, 2, 2, 2, 2, 2, 2, 4, 2, 2],
+    [0, 0, 0, 3, 4, 4, 4, 4, 3, 0, 0, 0],
 ]
 
 ONEUP = [
-  [0,4,4,4,4,4,4,4,0],
-  [4,3,2,2,1,2,2,3,4],
-  [4,2,2,1,1,1,2,2,4],
-  [4,3,4,4,4,4,4,3,4],
-  [4,4,1,4,1,4,1,4,4],
-  [0,4,1,1,1,1,1,4,0],
-  [0,0,4,4,4,4,4,0,0],
+    [0, 4, 4, 4, 4, 4, 4, 4, 0],
+    [4, 3, 2, 2, 1, 2, 2, 3, 4],
+    [4, 2, 2, 1, 1, 1, 2, 2, 4],
+    [4, 3, 4, 4, 4, 4, 4, 3, 4],
+    [4, 4, 1, 4, 1, 4, 1, 4, 4],
+    [0, 4, 1, 1, 1, 1, 1, 4, 0],
+    [0, 0, 4, 4, 4, 4, 4, 0, 0],
 ]
 
 ONEUP2 = [
-  [0,0,4,4,4,4,4,4,4,0,0],
-  [0,4,2,2,1,1,1,2,2,4,0],
-  [4,3,2,2,1,1,1,2,2,3,4],
-  [4,3,3,4,4,4,4,4,3,3,4],
-  [0,4,4,1,4,1,4,1,4,4,0],
-  [0,0,4,1,1,1,1,1,4,0,0],
-  [0,0,0,4,4,4,4,4,0,0,0],
+    [0, 0, 4, 4, 4, 4, 4, 4, 4, 0, 0],
+    [0, 4, 2, 2, 1, 1, 1, 2, 2, 4, 0],
+    [4, 3, 2, 2, 1, 1, 1, 2, 2, 3, 4],
+    [4, 3, 3, 4, 4, 4, 4, 4, 3, 3, 4],
+    [0, 4, 4, 1, 4, 1, 4, 1, 4, 4, 0],
+    [0, 0, 4, 1, 1, 1, 1, 1, 4, 0, 0],
+    [0, 0, 0, 4, 4, 4, 4, 4, 0, 0, 0],
 ]
 
 HACKERSCHOOL = [
-  [4,4,4,4,4,4],
-  [4,3,3,3,3,4],
-  [4,1,3,3,1,4],
-  [4,3,3,3,3,4],
-  [4,4,4,4,4,4],
-  [0,0,4,4,0,0],
-  [4,4,4,4,4,4],
+    [4, 4, 4, 4, 4, 4],
+    [4, 3, 3, 3, 3, 4],
+    [4, 1, 3, 3, 1, 4],
+    [4, 3, 3, 3, 3, 4],
+    [4, 4, 4, 4, 4, 4],
+    [0, 0, 4, 4, 0, 0],
+    [4, 4, 4, 4, 4, 4],
 ]
 
 OCTOCAT = [
-  [0,0,0,4,0,0,0,4,0],
-  [0,0,4,4,4,4,4,4,4],
-  [0,0,4,1,3,3,3,1,4],
-  [4,0,3,4,3,3,3,4,3],
-  [0,4,0,0,4,4,4,0,0],
-  [0,0,4,4,4,4,4,4,4],
-  [0,0,4,0,4,0,4,0,4],
+    [0, 0, 0, 4, 0, 0, 0, 4, 0],
+    [0, 0, 4, 4, 4, 4, 4, 4, 4],
+    [0, 0, 4, 1, 3, 3, 3, 1, 4],
+    [4, 0, 3, 4, 3, 3, 3, 4, 3],
+    [0, 4, 0, 0, 4, 4, 4, 0, 0],
+    [0, 0, 4, 4, 4, 4, 4, 4, 4],
+    [0, 0, 4, 0, 4, 0, 4, 0, 4],
 ]
 
 OCTOCAT2 = [
-  [0,0,4,0,0,4,0],
-  [0,4,4,4,4,4,4],
-  [0,4,1,3,3,1,4],
-  [0,4,4,4,4,4,4],
-  [4,0,0,4,4,0,0],
-  [0,4,4,4,4,4,0],
-  [0,0,0,4,4,4,0],
+    [0, 0, 4, 0, 0, 4, 0],
+    [0, 4, 4, 4, 4, 4, 4],
+    [0, 4, 1, 3, 3, 1, 4],
+    [0, 4, 4, 4, 4, 4, 4],
+    [4, 0, 0, 4, 4, 0, 0],
+    [0, 4, 4, 4, 4, 4, 0],
+    [0, 0, 0, 4, 4, 4, 0],
 ]
 
 HELLO = [
-  [0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,4],
-  [0,2,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,4],
-  [0,3,3,3,0,2,3,3,0,3,0,3,0,1,3,1,0,3],
-  [0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,3],
-  [0,3,0,3,0,3,3,3,0,3,0,3,0,3,0,3,0,2],
-  [0,2,0,2,0,2,0,0,0,2,0,2,0,2,0,2,0,0],
-  [0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,4],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4],
+    [0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 4],
+    [0, 3, 3, 3, 0, 2, 3, 3, 0, 3, 0, 3, 0, 1, 3, 1, 0, 3],
+    [0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 3],
+    [0, 3, 0, 3, 0, 3, 3, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 2],
+    [0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0],
+    [0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 4],
 ]
 
 HIREME = [
-  [1,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [3,3,3,0,2,0,3,3,3,0,2,3,3,0,0,3,3,0,3,0,0,2,3,3],
-  [4,0,4,0,4,0,4,0,0,0,4,0,4,0,0,4,0,4,0,4,0,4,0,4],
-  [3,0,3,0,3,0,3,0,0,0,3,3,3,0,0,3,0,3,0,3,0,3,3,3],
-  [2,0,2,0,2,0,2,0,0,0,2,0,0,0,0,2,0,2,0,2,0,2,0,0],
-  [1,0,1,0,1,0,1,0,0,0,1,1,1,0,0,1,0,1,0,1,0,1,1,1],
+    [1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [3, 3, 3, 0, 2, 0, 3, 3, 3, 0, 2, 3, 3, 0, 0, 3, 3, 0, 3, 0, 0, 2, 3, 3],
+    [4, 0, 4, 0, 4, 0, 4, 0, 0, 0, 4, 0, 4, 0, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4],
+    [3, 0, 3, 0, 3, 0, 3, 0, 0, 0, 3, 3, 3, 0, 0, 3, 0, 3, 0, 3, 0, 3, 3, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0],
+    [1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1],
 ]
 
-
 ASCII_TO_NUMBER = {
-  '-': 0,
-  '_': 1,
-  '~': 2,
-  '=': 3,
-  '*': 4,
+    '-': 0,
+    '_': 1,
+    '~': 2,
+    '=': 3,
+    '*': 4,
 }
 
 
 def str_to_sprite(content):
     # Break out lines and filter any excess
     lines = content.split('\n')
+
     def is_empty_line(line):
         return len(line) != 0
+
     lines = filter(is_empty_line, lines)
 
     # Break up lines into each character
@@ -162,17 +161,16 @@ ONEUP_STR = str_to_sprite('''
   *****  
 ''')
 
-
 IMAGES = {
-  'kitty': KITTY,
-  'oneup': ONEUP,
-  'oneup2': ONEUP2,
-  'hackerschool': HACKERSCHOOL,
-  'octocat': OCTOCAT,
-  'octocat2': OCTOCAT2,
-  'hello': HELLO,
-  'hireme': HIREME,
-  'oneup_str': ONEUP_STR,
+    'kitty': KITTY,
+    'oneup': ONEUP,
+    'oneup2': ONEUP2,
+    'hackerschool': HACKERSCHOOL,
+    'octocat': OCTOCAT,
+    'octocat2': OCTOCAT2,
+    'hello': HELLO,
+    'hireme': HIREME,
+    'oneup_str': ONEUP_STR,
 }
 
 
@@ -185,7 +183,6 @@ def load_images(img_names):
         img = open(image_name)
         loaded_imgs = {}
         img_list = ''
-        img_line = ' '
         name = img.readline().replace('\n', '')
         name = name[1:]
 
@@ -211,8 +208,8 @@ def get_calendar(username, base_url):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
+    url = base_url + '/contributions'
     try:
-        url = base_url + '/contributions'
         page = urlopen(url)
     except (HTTPError, URLError) as e:
         print('There was a problem fetching data from {0}'.format(url))
@@ -229,9 +226,9 @@ def find_max_commits(calendar):
     for line in calendar:
         for day in line.split():
             if 'data-count=' in day:
-                commit = day.split('=')[1]
-                commit = commit.strip('"')
-                output.add(int(commit))
+                commit_ = day.split('=')[1]
+                commit_ = commit_.strip('"')
+                output.add(int(commit_))
 
     output = list(output)
     output.sort()
@@ -282,14 +279,14 @@ def generate_values_in_date_order(image, multiplier=1):
             yield image[h][w] * multiplier
 
 
-def commit(content, commitdate):
+def commit(content, commit_date):
     template = (
         '''echo {0} >> gitfiti\n'''
         '''GIT_AUTHOR_DATE={1} GIT_COMMITTER_DATE={2} '''
         '''git commit -a -m "gitfiti" > /dev/null\n'''
     )
-    return template.format(content, commitdate.isoformat(),
-            commitdate.isoformat())
+    return template.format(content, commit_date.isoformat(),
+                           commit_date.isoformat())
 
 
 def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
@@ -310,7 +307,7 @@ def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
 
     strings = []
     for value, date in zip(generate_values_in_date_order(image, multiplier),
-            generate_next_dates(start_date, offset)):
+                           generate_next_dates(start_date, offset)):
         for i in range(value):
             strings.append(commit(i, date))
 
@@ -352,16 +349,15 @@ def main():
 
     offset = int(offset) if offset.strip() else 0
 
-    print((
-        'By default main.py matches the darkest pixel to the highest\n'
-        'number of commits found in your GitHub commit/activity calendar,\n'
-        '\n'
-        'Currently this is: {0} commits\n'
-        '\n'
-        'Enter the word "gitfiti" to exceed your max\n'
-        '(this option generates WAY more commits)\n'
-        'Any other input will cause the default matching behavior'
-    ).format(max_commits))
+    print("""\
+By default gitfiti matches the darkest pixel to the highest
+number of commits found in your GitHub commit/activity calendar,
+
+Currently this is: {0} commits
+Enter the word "gitfiti" to exceed your max
+(this option generates WAY more commits)
+Any other input will cause the default matching behavior
+""").format(max_commits)
     match = request_user_input()
 
     match = m if (match == 'gitfiti') else 1

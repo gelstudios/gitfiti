@@ -219,14 +219,14 @@ def retrieve_contributions_calendar(username, base_url):
         print(e)
         raise SystemExit
 
-    return page.read().decode('utf-8').splitlines()
+    return page.read().decode('utf-8')
 
 
 def find_max_daily_commits(contributions_calendar):
     """finds the highest number of commits in one day"""
     output = set()
 
-    for line in contributions_calendar:
+    for line in contributions_calendar.splitlines():
         for day in line.split():
             if 'data-count=' in day:
                 commit = day.split('=')[1]

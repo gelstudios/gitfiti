@@ -204,7 +204,7 @@ def load_images(img_names):
         return loaded_imgs
 
 
-def get_calendar(username, base_url):
+def retrieve_contributions_calendar(username, base_url):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
@@ -216,24 +216,23 @@ def get_calendar(username, base_url):
         print(e)
         raise SystemExit
 
-    return page.read().decode('utf-8').splitlines()
+    return page.read().decode('utf-8')
 
 
-def find_max_commits(calendar):
-    """finds the highest number of commits in one day"""
-    output = set()
-
-    for line in calendar:
+def parse_contributions_calendar(contributions_calendar):
+    """Yield daily counts extracted from the contributions SVG."""
+    for line in contributions_calendar.splitlines():
         for day in line.split():
             if 'data-count=' in day:
                 commit_ = day.split('=')[1]
                 commit_ = commit_.strip('"')
-                output.add(int(commit_))
+                yield int(commit_)
 
-    output = list(output)
-    output.sort()
-    output.reverse()
-    return output[0]
+
+def find_max_daily_commits(contributions_calendar):
+    """finds the highest number of commits in one day"""
+    daily_counts = parse_contributions_calendar(contributions_calendar)
+    return max(daily_counts)
 
 
 def calculate_multiplier(max_commits):
@@ -335,11 +334,11 @@ def main():
 
     git_base = ghe if ghe else GITHUB_BASE_URL
 
-    cal = get_calendar(username, git_base)
+    contributions_calendar = retrieve_contributions_calendar(username, git_base)
 
-    max_commits = find_max_commits(cal)
+    max_daily_commits = find_max_daily_commits(contributions_calendar)
 
-    m = calculate_multiplier(max_commits)
+    m = calculate_multiplier(max_daily_commits)
 
     repo = request_user_input(
         'Enter the name of the repository to use by gitfiti: ')
@@ -357,7 +356,7 @@ Currently this is: {0} commits
 Enter the word "gitfiti" to exceed your max
 (this option generates WAY more commits)
 Any other input will cause the default matching behavior
-""").format(max_commits)
+""").format(max_daily_commits)
     match = request_user_input()
 
     match = m if (match == 'gitfiti') else 1

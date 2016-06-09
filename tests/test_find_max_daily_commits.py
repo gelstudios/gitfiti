@@ -1,4 +1,4 @@
-from gitfiti import find_max_daily_commits, parse_contributions_calendar
+from gitfiti.main import find_max_daily_commits, parse_contributions_calendar
 
 
 CONTRIBUTIONS_CALENDAR_SVG = '''\

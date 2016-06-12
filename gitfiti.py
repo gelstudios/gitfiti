@@ -281,7 +281,7 @@ def generate_values_in_date_order(image, multiplier=1):
             yield image[h][w] * multiplier
 
 
-def commit(content, commitdate):
+def commit(commitdate):
     template = (
         '''GIT_AUTHOR_DATE={0} GIT_COMMITTER_DATE={1} '''
         '''git commit --allow-empty -m "gitfiti" > /dev/null\n'''
@@ -308,8 +308,8 @@ def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
     strings = []
     for value, date in zip(generate_values_in_date_order(image, multiplier),
             generate_next_dates(start_date, offset)):
-        for i in range(value):
-            strings.append(commit(i, date))
+        for _ in range(value):
+            strings.append(commit(date))
 
     return template.format(repo, ''.join(strings), git_url, username)
 

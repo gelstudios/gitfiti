@@ -34,12 +34,12 @@ FALLBACK_IMAGE = 'kitty'
 
 
 TITLE = '''
-          _ __  _____ __  _ 
+          _ __  _____ __  _
    ____ _(_) /_/ __(_) /_(_)
-  / __ `/ / __/ /_/ / __/ / 
- / /_/ / / /_/ __/ / /_/ /  
- \__, /_/\__/_/ /_/\__/_/   
-/____/ 
+  / __ `/ / __/ /_/ / __/ /
+ / /_/ / / /_/ __/ / /_/ /
+ \__, /_/\__/_/ /_/\__/_/
+/____/
 '''
 
 
@@ -153,13 +153,13 @@ def str_to_sprite(content):
 
 
 ONEUP_STR = str_to_sprite('''
- ******* 
+ *******
 *=~~-~~=*
 *~~---~~*
 *=*****=*
 **-*-*-**
- *-----* 
-  *****  
+ *-----*
+  *****
 ''')
 
 
@@ -211,7 +211,7 @@ def retrieve_contributions_calendar(username, base_url):
     """retrieves the GitHub commit calendar data for a username"""
     base_url = base_url + 'users/' + username
 
-    try:        
+    try:
         url = base_url + '/contributions'
         page = urlopen(url)
     except (HTTPError, URLError) as e:
@@ -281,14 +281,12 @@ def generate_values_in_date_order(image, multiplier=1):
             yield image[h][w] * multiplier
 
 
-def commit(content, commitdate):
+def commit(commitdate):
     template = (
-        '''echo {0} >> gitfiti\n'''
-        '''GIT_AUTHOR_DATE={1} GIT_COMMITTER_DATE={2} '''
-        '''git commit -a -m "gitfiti" > /dev/null\n'''
+        '''GIT_AUTHOR_DATE={0} GIT_COMMITTER_DATE={1} '''
+        '''git commit --allow-empty -m "gitfiti" > /dev/null\n'''
     )
-    return template.format(content, commitdate.isoformat(), 
-            commitdate.isoformat())
+    return template.format(commitdate.isoformat(), commitdate.isoformat())
 
 
 def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
@@ -310,8 +308,8 @@ def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
     strings = []
     for value, date in zip(generate_values_in_date_order(image, multiplier),
             generate_next_dates(start_date, offset)):
-        for i in range(value):
-            strings.append(commit(i, date))
+        for _ in range(value):
+            strings.append(commit(date))
 
     return template.format(repo, ''.join(strings), git_url, username)
 
@@ -380,9 +378,9 @@ def main():
     if not image:
         image = IMAGES[image_name_fallback]
     else:
-        try: 
+        try:
             image = images[image]
-        except: 
+        except:
             image = IMAGES[image_name_fallback]
 
     start_date = get_start_date()

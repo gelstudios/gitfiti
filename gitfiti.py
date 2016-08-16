@@ -301,7 +301,7 @@ def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
         'git add gitfiti\n'
         '{1}\n'
         'git remote add origin {2}:{3}/$REPO.git\n'
-        'git pull\n'
+        'git pull origin master\n'
         'git push -u origin master\n'
     )
 

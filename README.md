@@ -12,11 +12,11 @@ How?  `gitfiti.py` generates a bash script: `gitfiti.sh` that makes commits with
 Since this is likely to clobber repo's history, I highly recommend that you create a _new_ github repo when using gitfiti. Also, the generated bash script assumes you are using public-key authentication with git.
 
 
-###Pixel Art:
+### Pixel Art:
 ![alt text](https://raw.github.com/gelstudios/gitfiti/master/pixels-large.png "pixel art")  
 Included "art" from left to right: kitty, oneup, oneup2, hackerschool, octocat, octocat2
 
-###Usage:
+### Usage:
 1. Create a new github repo to store your handiwork.
 2. Run `gitfiti.py` and follow the prompts for username, art selection, offset, and repo name.
 3. Run the generated `gitfiti.sh` from your home directory (or any non-git tracked dir) and watch it go to work.
@@ -47,14 +47,14 @@ This would output a 7 x 7 light green square with a single blank center square.
 
 Once you have a file with templates, enter its name when prompted and the templates will be added to the list of options.
 
-###Removal:
+### Removal:
 Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
 
-###License:
+### License:
 gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses/MIT)
 
 ---
-####Todo:
+#### Todo:
 - ~~Remove 'requests' dependency~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - ~~Web interface~~ See several web-based things below
 - ~~Load "art" from a file~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
@@ -63,7 +63,7 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 - ...
 - Profit?
 
-####Notable derivatives or mentions:
+#### Notable derivatives or mentions:
 - [Pikesley's](https://github.com/pikesley) Pokrovsky, which offers Github History Vandalism [as a Service!](http://pokrovsky.herokuapp.com/)
 - [github-board](https://github.com/bayandin/github-board) commits gitfiti from easy templates
 - [ghdecoy](https://github.com/tickelton/ghdecoy) fills the contribution graph with random data (sneaky!)

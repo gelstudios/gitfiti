@@ -396,7 +396,7 @@ def main():
 
     save(output, 'gitfiti.sh')
     print('gitfiti.sh saved.')
-    print('Create a new(!) repo at {0}new and run the script'.format(git_base))
+    print('Create a new(!) repo named {0} at {1} and run the script'.format(repo, git_base))
 
 
 if __name__ == '__main__':

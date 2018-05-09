@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import itertools
 import json
 import math
+import os
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -133,6 +134,15 @@ BEER = [
   [0,0,2,2,2,2,0,3,3,3,0,0,3,3,3,0,3,3,3,0,3,0,0,3,0],
 ]
 
+GLIDERS = [
+  [0,0,0,4,0,4,0,0,0,0,4,0,0,0],
+  [0,4,0,4,0,0,4,4,0,0,0,4,0,0],
+  [0,0,4,4,0,4,4,0,0,4,4,4,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,4,0,4,0,0,0,4,0,0,0,0,0,0],
+  [0,0,4,4,0,4,0,4,0,0,0,0,0,0],
+  [0,0,4,0,0,0,4,4,0,0,0,0,0,0],
+]
 
 ASCII_TO_NUMBER = {
   '_': 0,
@@ -184,6 +194,7 @@ IMAGES = {
   'hireme': HIREME,
   'oneup_str': ONEUP_STR,
   'beer': BEER,
+  'gliders': GLIDERS,
 }
 
 
@@ -329,6 +340,7 @@ def save(output, filename):
     """Saves the list to a given filename"""
     with open(filename, 'w') as f:
         f.write(output)
+    os.chmod(filename, 0o755) # add execute permissions
 
 
 def request_user_input(prompt='> '):

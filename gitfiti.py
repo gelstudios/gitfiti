@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import itertools
 import json
 import math
+import os
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -329,6 +330,7 @@ def save(output, filename):
     """Saves the list to a given filename"""
     with open(filename, 'w') as f:
         f.write(output)
+    os.chmod(filename, 0o755) # add execute permissions
 
 
 def request_user_input(prompt='> '):

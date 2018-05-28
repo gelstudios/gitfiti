@@ -47,6 +47,10 @@ This would output a 7 x 7 light green square with a single blank center square.
 
 Once you have a file with templates, enter its name when prompted and the templates will be added to the list of options.
 
+### Generate a Random Pattern
+Everytime you run generate_random.exe, a new random pattern is generated and stored in rand.txt by name "random" and then can be used by including the file.
+
+
 ### Removal:
 Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
 

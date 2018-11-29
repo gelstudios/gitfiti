@@ -14,6 +14,9 @@ import itertools
 import json
 import math
 import os
+import random
+import string
+
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -367,6 +370,18 @@ def main():
     repo = request_user_input(
         'Enter the name of the repository to use by gitfiti: ')
 
+    if not repo.strip():
+        repo = 'gitfiti-'+''.join(random.SystemRandom().choice(string.ascii_lowercase + string.digits) for _ in range(10))
+		# Creating a repo name prefixed by "gitfiti" followed by 10 randomly generated characters.
+        print((
+			'Blank repo name is invalid'
+			))
+        
+        print((
+			'Assigning a random repo name: '+repo
+		))
+    else :
+        pass
     offset = request_user_input(
         'Enter the number of weeks to offset the image (from the left): ')
 

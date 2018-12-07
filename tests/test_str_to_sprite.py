@@ -2,13 +2,13 @@ from sprites import str_to_sprite, ONEUP_STR
 
 
 SYMBOLS = '''
- *******
+_*******_
 *=~~-~~=*
 *~~---~~*
 *=*****=*
 **-*-*-**
- *-----*
-  *****
+_*-----*_
+__*****__
 '''
 
 NUMBERS = [

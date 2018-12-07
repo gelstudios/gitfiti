@@ -1,14 +1,14 @@
-from gitfiti import str_to_sprite, ONEUP_STR
+from sprites import str_to_sprite, ONEUP_STR
 
 
 SYMBOLS = '''
- ******* 
+ *******
 *=~~-~~=*
 *~~---~~*
 *=*****=*
 **-*-*-**
- *-----* 
-  *****  
+ *-----*
+  *****
 '''
 
 NUMBERS = [

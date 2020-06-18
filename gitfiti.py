@@ -197,6 +197,10 @@ IMAGES = {
   'gliders': GLIDERS,
 }
 
+SHELLS = {
+  'bash': 'sh',
+  'powershell': 'ps1',
+}
 
 def load_images(img_names):
     """loads user images from given file(s)"""
@@ -303,16 +307,24 @@ def generate_values_in_date_order(image, multiplier=1):
             yield image[h][w] * multiplier
 
 
-def commit(commitdate):
-    template = (
+def commit(commitdate, shell):
+    template_bash = (
         '''GIT_AUTHOR_DATE={0} GIT_COMMITTER_DATE={1} '''
         '''git commit --allow-empty -m "gitfiti" > /dev/null\n'''
     )
+    
+    template_powershell = (
+        '''$Env:GIT_AUTHOR_DATE="{0}"\n$Env:GIT_COMMITTER_DATE="{1}"\n'''
+        '''git commit --allow-empty -m "gitfiti" | Out-Null\n'''
+    )
+
+    template = template_bash if shell == 'bash' else template_powershell
+
     return template.format(commitdate.isoformat(), commitdate.isoformat())
 
 
-def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
-    template = (
+def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multiplier=1):
+    template_bash = (
         '#!/usr/bin/env bash\n'
         'REPO={0}\n'
         'git init $REPO\n'
@@ -327,11 +339,28 @@ def fake_it(image, start_date, username, repo, git_url, offset=0, multiplier=1):
         'git push -u origin master\n'
     )
 
+    template_powershell = (
+        'cd $PSScriptRoot\n'
+        '$REPO="{0}"\n'
+        'git init $REPO\n'
+        'cd $REPO\n'
+        'New-Item README.md -ItemType file | Out-Null\n'
+        'git add README.md\n'
+        'New-Item gitfiti -ItemType file | Out-Null\n'
+        'git add gitfiti\n'
+        '{1}\n'
+        'git remote add origin {2}:{3}/$REPO.git\n'
+        'git pull origin master\n'
+        'git push -u origin master\n'
+    )
+
+    template = template_bash if shell == 'bash' else template_powershell
+
     strings = []
     for value, date in zip(generate_values_in_date_order(image, multiplier),
             generate_next_dates(start_date, offset)):
         for _ in range(value):
-            strings.append(commit(date))
+            strings.append(commit(date, shell))
 
     return template.format(repo, ''.join(strings), git_url, username)
 
@@ -413,12 +442,18 @@ def main():
         git_url = 'git@github.com'
     else:
         git_url = request_user_input('Enter Git URL like git@site.github.com: ')
+        
+    shell = ''
+    while shell not in SHELLS.keys(): 
+        shell = request_user_input(
+            'Enter the target shell ({}): '.format(' or '.join(SHELLS.keys())))
 
-    output = fake_it(image, start_date, username, repo, git_url, offset,
+    output = fake_it(image, start_date, username, repo, git_url, shell, offset,
                      fake_it_multiplier)
 
-    save(output, 'gitfiti.sh')
-    print('gitfiti.sh saved.')
+    output_filename = 'gitfiti.{}'.format(SHELLS[shell])
+    save(output, output_filename)
+    print('{} saved.'.format(output_filename))
     print('Create a new(!) repo named {0} at {1} and run the script'.format(repo, git_base))
 
 

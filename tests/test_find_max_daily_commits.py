@@ -110,7 +110,7 @@ def test_parse_contributions_calendar():
 
     actual = parse_contributions_calendar(CONTRIBUTIONS_CALENDAR_SVG)
 
-    assert actual.keys() == expected.keys()
+    assert sorted(actual.keys()) == sorted(expected.keys())
     assert all(actual[k] == expected[k] for k in actual.keys())
 
 

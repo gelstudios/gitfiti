@@ -272,14 +272,14 @@ def calculate_multiplier(max_commits):
     return m
 
 
-def get_start_date():
-    """returns a datetime object for the first sunday after one year ago today
-    at 12:00 noon"""
+def get_default_date():
+    """returns a datetime object from one year ago, at 12:00 noon"""
     today = datetime.today()
-    date = datetime(today.year - 1, today.month, today.day, 12)
+    return datetime(today.year - 1, today.month, today.day, 12)
 
+def calculate_next_sunday(date):
+    """returns a datetime object for the first sunday after the input date"""
     return date + timedelta(6 - datetime.weekday(date))
-
 
 def generate_next_dates(start_date, offset=0):
     """generator that returns the next date, requires a datetime object as
@@ -401,7 +401,15 @@ def main():
         except:
             image = IMAGES[image_name_fallback]
 
-    start_date = get_start_date()
+    print('Enter the origin date (blank to start today, one year ago)')
+    try:
+        input_date = datetime.strptime(
+            request_user_input('yyyy-mm-dd: '),
+            '%Y-%m-%d')
+    except ValueError:
+        input_date = get_default_date()
+    start_date = calculate_next_sunday(input_date)
+
     fake_it_multiplier = m * match
 
     if not ghe:

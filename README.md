@@ -54,12 +54,14 @@ Fortunately if you regret your gitfiti in the morning, removing it is fairly eas
 gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses/MIT)
 
 ---
+
 #### Todo:
 - ~~Remove 'requests' dependency~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - ~~Web interface~~ See several web-based things below
 - ~~Load "art" from a file~~ [_thanks empathetic-alligator_](https://github.com/empathetic-alligator)
 - Load commit content from a file
 - Text/alphabet option
+- ~~powershell support!~~ [_thanks axzn_](https://github.com/axzn)
 - ...
 - Profit?
 

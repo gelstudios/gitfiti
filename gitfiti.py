@@ -334,9 +334,10 @@ def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multipl
         'touch gitfiti\n'
         'git add gitfiti\n'
         '{1}\n'
+        'git branch -M main\n'
         'git remote add origin {2}:{3}/$REPO.git\n'
-        'git pull origin master\n'
-        'git push -u origin master\n'
+        'git pull origin main\n'
+        'git push -u origin main\n'
     )
 
     template_powershell = (

@@ -174,6 +174,16 @@ HEART = [
   [0,0,0,4,0,0,0],
 ]
 
+HEART_SHINY = [
+  [0,4,4,0,4,4,0],
+  [4,2,0,4,2,2,4],
+  [4,0,2,2,2,2,4],
+  [4,2,2,2,2,2,4],
+  [0,4,2,2,2,4,0],
+  [0,0,4,2,4,0,0],
+  [0,0,0,4,0,0,0],
+]
+
 ASCII_TO_NUMBER = {
   '_': 0,
   '_': 1,
@@ -227,7 +237,8 @@ IMAGES = {
   'oneup_str': ONEUP_STR,
   'beer': BEER,
   'gliders': GLIDERS,
-  'heart' : HEART,
+  'heart' : HEART, 
+  'heart_shiny' : HEART_SHINY,
 }
 
 SHELLS = {

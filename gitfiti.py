@@ -12,6 +12,7 @@ noun : Carefully crafted graffiti in a GitHub commit history calendar
 from datetime import datetime, timedelta
 import itertools
 import json
+import re
 import math
 import os
 try:
@@ -294,12 +295,9 @@ def retrieve_contributions_calendar(username, base_url):
 
 def parse_contributions_calendar(contributions_calendar):
     """Yield daily counts extracted from the contributions SVG."""
-    for line in contributions_calendar.splitlines():
-        for day in line.split():
-            if 'data-count=' in day:
-                commit = day.split('=')[1]
-                commit = commit.strip('"')
-                yield int(commit)
+    result_list = re.findall('data-count="(\d+)"', contributions_calendar)
+    for item in result_list:
+        yield int(item)
 
 
 def find_max_daily_commits(contributions_calendar):

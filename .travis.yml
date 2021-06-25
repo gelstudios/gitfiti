@@ -1,9 +1,8 @@
 language: python
 python:
   - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev"
+  - "3.6"
+  - "3.9"
   - "nightly"
 install:
   - "pip install pytest"

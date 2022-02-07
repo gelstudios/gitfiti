@@ -254,7 +254,7 @@ def load_images(img_names):
         return {}
 
     for image_name in img_names:
-        img = open(image_name, 'r', encoding='iso-8859-1')
+        img = open(image_name)
         loaded_imgs = {}
         img_list = ''
         img_line = ' '
@@ -381,7 +381,7 @@ def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multipl
         'git add gitfiti\n'
         '{1}\n'
         'git branch -M main\n'
-        'git remote add origin {2}:{3}/$REPO.git\n'
+        'git remote add origin {2}/{3}/$REPO.git\n'
         'git pull origin main\n'
         'git push -u origin main\n'
     )
@@ -397,7 +397,7 @@ def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multipl
         'git add gitfiti\n'
         '{1}\n'
         'git branch -M main\n'
-        'git remote add origin {2}:{3}/$REPO.git\n'
+        'git remote add origin {2}/{3}/$REPO.git\n'
         'git pull origin main\n'
         'git push -u origin main\n'
     )

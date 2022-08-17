@@ -10,10 +10,12 @@ noun : Carefully crafted graffiti in a GitHub commit history calendar
 """
 
 from datetime import datetime, timedelta
+from collections import defaultdict
 import itertools
 import json
 import math
 import os
+import re
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -193,6 +195,23 @@ ASCII_TO_NUMBER = {
 }
 
 
+def get_start_date():
+    """returns a datetime object for the first sunday after one year ago today
+    at 12:00 noon"""
+    today = datetime.today()
+    date = datetime(today.year - 1, today.month, today.day, 12)
+    weekday = datetime.weekday(date)
+
+    while weekday < 6:
+        date = date + timedelta(1)
+        weekday = datetime.weekday(date)
+
+    return date
+
+
+# get start date only once, in case program run between two days
+start_date = get_start_date()
+
 def str_to_sprite(content):
     # Break out lines and filter any excess
     lines = content.split('\n')
@@ -293,19 +312,24 @@ def retrieve_contributions_calendar(username, base_url):
 
 
 def parse_contributions_calendar(contributions_calendar):
-    """Yield daily counts extracted from the contributions SVG."""
-    for line in contributions_calendar.splitlines():
-        for day in line.split():
-            if 'data-count=' in day:
-                commit = day.split('=')[1]
-                commit = commit.strip('"')
-                yield int(commit)
+    """convert XML of contributions calendar to a dict {date: nubmer of commits}"""
+    data_count_pattern = re.compile('data-count="([\d]+)"')
+    data_date_pattern = re.compile('data-date="([-\d]+)"')
+    elements = re.findall("<rect[^>]+>", contributions_calendar)
+    result = defaultdict(lambda: 0)
+    for element in elements:
+        try:
+            data_count = int(data_count_pattern.search(element).group(1))
+            data_date = data_date_pattern.search(element).group(1)
+            result[data_date] = data_count
+        except:
+            pass
+    return result
 
 
 def find_max_daily_commits(contributions_calendar):
     """finds the highest number of commits in one day"""
-    daily_counts = parse_contributions_calendar(contributions_calendar)
-    return max(daily_counts)
+    return max(contributions_calendar.values())
 
 
 def calculate_multiplier(max_commits):
@@ -318,20 +342,6 @@ def calculate_multiplier(max_commits):
     m = math.ceil(m)
     m = int(m)
     return m
-
-
-def get_start_date():
-    """returns a datetime object for the first sunday after one year ago today
-    at 12:00 noon"""
-    today = datetime.today()
-    date = datetime(today.year - 1, today.month, today.day, 12)
-    weekday = datetime.weekday(date)
-
-    while weekday < 6:
-        date = date + timedelta(1)
-        weekday = datetime.weekday(date)
-
-    return date
 
 
 def generate_next_dates(start_date, offset=0):
@@ -367,8 +377,9 @@ def commit(commitdate, shell):
     return template.format(commitdate.isoformat(), commitdate.isoformat())
 
 
-def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multiplier=1):
-    template_bash = (
+def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multiplier=1, 
+            contributions_calendar=defaultdict(lambda: 0)):
+    template = (
         '#!/usr/bin/env bash\n'
         'REPO={0}\n'
         'git init $REPO\n'
@@ -403,9 +414,10 @@ def fake_it(image, start_date, username, repo, git_url, shell, offset=0, multipl
     template = template_bash if shell == 'bash' else template_powershell
 
     strings = []
-    for value, date in zip(generate_values_in_date_order(image, multiplier),
+    for commits_need, date in zip(generate_values_in_date_order(image, multiplier),
             generate_next_dates(start_date, offset)):
-        for _ in range(value):
+        commits_now = contributions_calendar[date.strftime('%Y-%m-%d')]
+        for _ in range(commits_need - commits_now):
             strings.append(commit(date, shell))
 
     return template.format(repo, ''.join(strings), git_url, username)
@@ -434,6 +446,8 @@ def main():
     git_base = ghe if ghe else GITHUB_BASE_URL
 
     contributions_calendar = retrieve_contributions_calendar(username, git_base)
+
+    contributions_calendar = parse_contributions_calendar(contributions_calendar)
 
     max_daily_commits = find_max_daily_commits(contributions_calendar)
 
@@ -481,7 +495,6 @@ def main():
         except:
             image = IMAGES[image_name_fallback]
 
-    start_date = get_start_date()
     fake_it_multiplier = m * match
 
     if not ghe:
@@ -495,7 +508,7 @@ def main():
             'Enter the target shell ({}): '.format(' or '.join(SHELLS.keys())))
 
     output = fake_it(image, start_date, username, repo, git_url, shell, offset,
-                     fake_it_multiplier)
+                     fake_it_multiplier, contributions_calendar)
 
     output_filename = 'gitfiti.{}'.format(SHELLS[shell])
     save(output, output_filename)

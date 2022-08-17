@@ -72,18 +72,48 @@ CONTRIBUTIONS_CALENDAR_SVG = '''\
 
 
 def test_parse_contributions_calendar():
-    expected = [
-        0, 0, 0, 0, 6, 0, 0,
-        0, 0, 0, 0, 0, 0, 6,
-        84, 16, 4, 8, 0, 0, 0,
-        0, 25, 66, 20, 10, 0, 0,
-        33, 9, 0, 0, 7,
-    ]
+    expected = {
+        "2016-05-08": 0,
+        "2016-05-09": 0,
+        "2016-05-10": 0,
+        "2016-05-11": 0,
+        "2016-05-12": 6,
+        "2016-05-13": 0,
+        "2016-05-14": 0,
+        "2016-05-15": 0,
+        "2016-05-16": 0,
+        "2016-05-17": 0,
+        "2016-05-18": 0,
+        "2016-05-19": 0,
+        "2016-05-20": 0,
+        "2016-05-21": 6,
+        "2016-05-22": 84,
+        "2016-05-23": 16,
+        "2016-05-24": 4,
+        "2016-05-25": 8,
+        "2016-05-26": 0,
+        "2016-05-27": 0,
+        "2016-05-28": 0,
+        "2016-05-29": 0,
+        "2016-05-30": 25,
+        "2016-05-31": 66,
+        "2016-06-01": 20,
+        "2016-06-02": 10,
+        "2016-06-03": 0,
+        "2016-06-04": 0,
+        "2016-06-05": 33,
+        "2016-06-06": 9,
+        "2016-06-07": 0,
+        "2016-06-08": 0,
+        "2016-06-09": 7,
+    }
 
     actual = parse_contributions_calendar(CONTRIBUTIONS_CALENDAR_SVG)
 
-    assert list(actual) == expected
+    assert sorted(actual.keys()) == sorted(expected.keys())
+    assert all(actual[k] == expected[k] for k in actual.keys())
 
 
 def test_find_max_daily_commits():
-    assert find_max_daily_commits(CONTRIBUTIONS_CALENDAR_SVG) == 84
+    contributions_calendar = parse_contributions_calendar(CONTRIBUTIONS_CALENDAR_SVG)
+    assert find_max_daily_commits(contributions_calendar) == 84

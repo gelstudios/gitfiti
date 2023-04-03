@@ -293,19 +293,21 @@ def retrieve_contributions_calendar(username, base_url):
 
 
 def parse_contributions_calendar(contributions_calendar):
-    """Yield daily counts extracted from the contributions SVG."""
+    """Yield daily counts extracted from the embedded contributions SVG."""
     for line in contributions_calendar.splitlines():
-        for day in line.split():
-            if 'data-count=' in day:
-                commit = day.split('=')[1]
-                commit = commit.strip('"')
+        # a valid line looks like this:
+        # <rect width="11" height="11" x="-31" y="0" class="ContributionCalendar-day" data-date="2023-02-26" data-level="3" rx="2" ry="2">23 contributions on Sunday, February 26, 2023</rect>
+        if 'data-date=' in line:
+            commit = line.split('>')[1].split()[0] # yuck
+
+            if commit.isnumeric():
                 yield int(commit)
 
 
 def find_max_daily_commits(contributions_calendar):
     """finds the highest number of commits in one day"""
     daily_counts = parse_contributions_calendar(contributions_calendar)
-    return max(daily_counts)
+    return max(daily_counts, default=0)
 
 
 def calculate_multiplier(max_commits):

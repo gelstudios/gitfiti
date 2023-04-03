@@ -252,29 +252,29 @@ def load_images(img_names):
         return {}
 
     for image_name in img_names:
-        img = open(image_name)
-        loaded_imgs = {}
-        img_list = ''
-        img_line = ' '
-        name = img.readline().replace('\n', '')
-        name = name[1:]
+        with open(image_name) as img:
+            loaded_imgs = {}
+            img_list = ''
+            img_line = ' '
+            name = img.readline().replace('\n', '')
+            name = name[1:]
 
-        while True:
-            img_line = img.readline()
-            if img_line == '':
-                break
+            while True:
+                img_line = img.readline()
+                if img_line == '':
+                    break
 
-            img_line.replace('\n', '')
-            if img_line[0] == ':':
-                loaded_imgs[name] = json.loads(img_list)
-                name = img_line[1:]
-                img_list = ''
-            else:
-                img_list += img_line
+                img_line.replace('\n', '')
+                if img_line[0] == ':':
+                    loaded_imgs[name] = json.loads(img_list)
+                    name = img_line[1:]
+                    img_list = ''
+                else:
+                    img_list += img_line
 
-        loaded_imgs[name] = json.loads(img_list)
+            loaded_imgs[name] = json.loads(img_list)
 
-        return loaded_imgs
+            return loaded_imgs
 
 
 def retrieve_contributions_calendar(username, base_url):

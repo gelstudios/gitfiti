@@ -73,6 +73,7 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 #### Notable derivatives or mentions
 
 - [Vincent Van Git](https://github.com/jh3y/vincent-van-git) Vincent, which offers a [very slick web ui](https://vincent-van-git.netlify.app/) to generate a gitfiti script
+- [github-calendar-customerizer](https://github.com/ZachSaucier/github-calendar-customizer) another very (nice web GUI)[https://codepen.io/ZachSaucier/full/PzVRBy] for generating gitfiti templates.
 - [Pikesley's](https://github.com/pikesley) Pokrovsky, which offers Github History Vandalism [as a Service!](http://pokrovsky.herokuapp.com/)
 - [PSVandalism](https://github.com/DenisBalan/PSVandalism) Wrapper around Pokrovsky, which makes possible vandalising Github History from Powershell
 - [github-board](https://github.com/bayandin/github-board) commits gitfiti from easy templates
@@ -82,5 +83,5 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 - [github-jack](https://github.com/tardypad/github-jack) a pure bash version with space invaders and shining creepypasta
 - [github-graffiti](https://github.com/mavrk/github-graffiti) a GUI editor with a bash script to allow custom designs on your commit map
 - [Paint GitHub](https://paintgithub.com/) is the most convenient way to paint your GitHub contribution graph!
-- [contribution-pixel-messages](https://github.com/abulvenz/contribution-pixel-messages) generates a date plan from editable gui
+- [contribution-pixel-messages](https://github.com/abulvenz/contribution-pixel-messages) generates a date plan from an editable GUI
 - Seen something else? Submit a pull request or open an issue!

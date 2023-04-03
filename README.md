@@ -73,7 +73,8 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 #### Notable derivatives or mentions
 
 - [Vincent Van Git](https://github.com/jh3y/vincent-van-git) Vincent, which offers a [very slick web ui](https://vincent-van-git.netlify.app/) to generate a gitfiti script
-- [github-calendar-customerizer](https://github.com/ZachSaucier/github-calendar-customizer) another very (nice web GUI)[https://codepen.io/ZachSaucier/full/PzVRBy] for generating gitfiti templates.
+- [github-calendar-customerizer](https://github.com/ZachSaucier/github-calendar-customizer) from ZachSaucier, another very [nice web GUI](https://codepen.io/ZachSaucier/full/PzVRBy) for generating gitfiti templates
+- [git-art](https://github.com/jamesjarvis/git-art) from jamesjarvis, a work-alike web based [editor GUI](https://jamesjarvis.github.io/git-art/) that generates the script too
 - [Pikesley's](https://github.com/pikesley) Pokrovsky, which offers Github History Vandalism [as a Service!](http://pokrovsky.herokuapp.com/)
 - [PSVandalism](https://github.com/DenisBalan/PSVandalism) Wrapper around Pokrovsky, which makes possible vandalising Github History from Powershell
 - [github-board](https://github.com/bayandin/github-board) commits gitfiti from easy templates

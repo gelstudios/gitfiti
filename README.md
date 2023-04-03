@@ -82,4 +82,5 @@ gitfiti is released under [The MIT license (MIT)](http://opensource.org/licenses
 - [github-jack](https://github.com/tardypad/github-jack) a pure bash version with space invaders and shining creepypasta
 - [github-graffiti](https://github.com/mavrk/github-graffiti) a GUI editor with a bash script to allow custom designs on your commit map
 - [Paint GitHub](https://paintgithub.com/) is the most convenient way to paint your GitHub contribution graph!
+- [contribution-pixel-messages](https://github.com/abulvenz/contribution-pixel-messages) generates a date plan from editable gui
 - Seen something else? Submit a pull request or open an issue!

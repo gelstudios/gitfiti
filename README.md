@@ -20,6 +20,37 @@ Included "art" from left to right: kitty, oneup, oneup2, hackerschool, octocat, 
 
 1. Create a new github repo to store your handiwork.
 2. Run `gitfiti.py` and follow the prompts for username, art selection, offset, and repo name.
+
+For Python 3, use `python3`.
+
+```console
+    $ python3 ./gitfiti.py
+
+              _ __  _____ __  _
+       ____ _(_) /_/ __(_) /_(_)
+      / __ `/ / __/ /_/ / __/ /
+     / /_/ / / /_/ __/ / /_/ /
+     \__, /_/\__/_/ /_/\__/_/
+    /____/
+
+    Enter GitHub URL (leave blank to use https://github.com/):
+```
+
+For Python 2, use `python2`.
+
+```console
+    $ python2 ./gitfiti.py
+
+              _ __  _____ __  _
+       ____ _(_) /_/ __(_) /_(_)
+      / __ `/ / __/ /_/ / __/ /
+     / /_/ / / /_/ __/ / /_/ /
+     \__, /_/\__/_/ /_/\__/_/
+    /____/
+
+    Enter GitHub URL (leave blank to use https://github.com/):
+```
+
 3. Run the generated `gitfiti.sh` or `gitfiti.ps1` from your home directory (or any non-git tracked dir) and watch it go to work.
 4. Wait... Seriously, you'll probably need to wait a day or two for the gitfiti to show in your commit graph.
 

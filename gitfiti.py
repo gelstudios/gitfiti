@@ -14,6 +14,7 @@ import itertools
 import json
 import math
 import os
+import re
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -296,10 +297,12 @@ def parse_contributions_calendar(contributions_calendar):
     """Yield daily counts extracted from the embedded contributions SVG."""
     for line in contributions_calendar.splitlines():
         # a valid line looks like this:
-        # <rect width="11" height="11" x="-31" y="0" class="ContributionCalendar-day" data-date="2023-02-26" data-level="3" rx="2" ry="2">23 contributions on Sunday, February 26, 2023</rect>
-        if 'data-date=' in line:
-            commit = line.split('>')[1].split()[0] # yuck
+        # <tool-tip id="tooltip-99062d7f-da1e-4061-9165-9675ff3484aa" for="contribution-day-component-0-0" popover="manual" data-direction="n" data-type="label" data-view-component="true" class="sr-only position-absolute">No contributions on August 27th.</tool-tip>
 
+        pattern = r'(\bNo\b|\d+)\s+contributions on'
+        match = re.search(pattern, line, re.IGNORECASE)
+        if match:
+            commit = match.group(1)
             if commit.isnumeric():
                 yield int(commit)
 

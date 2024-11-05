@@ -297,7 +297,8 @@ def parse_contributions_calendar(contributions_calendar):
     for line in contributions_calendar.splitlines():
         # a valid line looks like this:
         # <rect width="11" height="11" x="-31" y="0" class="ContributionCalendar-day" data-date="2023-02-26" data-level="3" rx="2" ry="2">23 contributions on Sunday, February 26, 2023</rect>
-        if 'data-date=' in line:
+        # I changed the part to look for from 'data-date=' to 'sr-only position-absolute'
+        if 'sr-only position-absolute' in line:    
             commit = line.split('>')[1].split()[0] # yuck
 
             if commit.isnumeric():

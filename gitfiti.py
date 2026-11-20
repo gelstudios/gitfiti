@@ -10,10 +10,12 @@ noun : Carefully crafted graffiti in a GitHub commit history calendar
 """
 
 from datetime import datetime, timedelta
+import argparse
 import itertools
 import json
 import math
 import os
+import sys
 try:
     # Python 3+
     from urllib.error import HTTPError, URLError
@@ -32,6 +34,7 @@ except NameError:
 
 GITHUB_BASE_URL = 'https://github.com/'
 FALLBACK_IMAGE = 'kitty'
+DEFAULT_GIT_BASE = 'git@github.com'
 
 
 TITLE = '''
@@ -121,7 +124,7 @@ HEART1 = [
   [1,3,4,4,4,3,1],
   [0,1,3,4,3,1,0],
   [0,0,1,3,1,0,0],
-  [0,0,0,1,0,0,0],        
+  [0,0,0,1,0,0,0],
 ]
 
 HEART2 = [
@@ -131,7 +134,7 @@ HEART2 = [
   [5,3,1,1,1,3,5],
   [0,5,3,1,3,5,0],
   [0,0,5,3,5,0,0],
-  [0,0,0,5,0,0,0],        
+  [0,0,0,5,0,0,0],
 ]
 
 HIREME = [
@@ -237,7 +240,7 @@ IMAGES = {
   'oneup_str': ONEUP_STR,
   'beer': BEER,
   'gliders': GLIDERS,
-  'heart' : HEART, 
+  'heart' : HEART,
   'heart_shiny' : HEART_SHINY,
 }
 
@@ -358,7 +361,7 @@ def commit(commitdate, shell):
         '''GIT_AUTHOR_DATE={0} GIT_COMMITTER_DATE={1} '''
         '''git commit --allow-empty -m "gitfiti" > /dev/null\n'''
     )
-    
+
     template_powershell = (
         '''$Env:GIT_AUTHOR_DATE="{0}"\n$Env:GIT_COMMITTER_DATE="{1}"\n'''
         '''git commit --allow-empty -m "gitfiti" | Out-Null\n'''
@@ -425,7 +428,45 @@ def request_user_input(prompt='> '):
     return raw_input(prompt)
 
 
-def main():
+def headless( username: str,
+              repo: str,
+              profile_url: str,
+              img_names: list,
+              offset: int = 0,
+              saturate: bool = False,
+              git_base: str = GITHUB_BASE_URL ) -> None:
+
+    print(TITLE)
+    shell = 'bash'
+    if not username or not repo:
+        print("username and repo are reguired")
+        sys.exit(1)
+
+    # Get and parse current calendar
+    contributions_calendar = retrieve_contributions_calendar(username, profile_url)
+    max_daily_commits = find_max_daily_commits(contributions_calendar)
+    start_date = get_start_date()
+
+    # Gather materials for the new calendar
+    loaded_image = load_images(img_names).get('CUSTOM_IMG')
+    m = calculate_multiplier(max_daily_commits)
+    match = m if saturate else 1
+    fake_it_multiplier = m * match
+
+    # yeah, this is where it all breaks down.
+    # maybe I will revitit this one day
+    # TODO: Fix target repo mechanism
+    # Either with another flag or some sting parsing?
+    output = fake_it(loaded_image, start_date, username, repo, git_base, shell, offset,
+                     fake_it_multiplier)
+
+    output_filename = 'gitfiti.{}'.format(SHELLS[shell])
+    save(output, output_filename)
+    print('{} saved.'.format(output_filename))
+    print('Create a new(!) repo named {0} at {1} and run the script'.format(repo, git_base))
+
+
+def interactive():
     print(TITLE)
 
     ghe = request_user_input(
@@ -490,9 +531,9 @@ def main():
         git_url = 'git@github.com'
     else:
         git_url = request_user_input('Enter Git URL like git@site.github.com: ')
-        
+
     shell = ''
-    while shell not in SHELLS.keys(): 
+    while shell not in SHELLS.keys():
         shell = request_user_input(
             'Enter the target shell ({}): '.format(' or '.join(SHELLS.keys())))
 
@@ -503,6 +544,35 @@ def main():
     save(output, output_filename)
     print('{} saved.'.format(output_filename))
     print('Create a new(!) repo named {0} at {1} and run the script'.format(repo, git_base))
+
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n","--noninteractive", help="don't prompt for input",action="store_true")
+    parser.add_argument("-u","--username", help="Github username")
+    parser.add_argument("-o","--offset", help="Image offset from left border")
+    parser.add_argument("-g","--git_base", help="git remote (minus repo)")
+    parser.add_argument("-r","--repo", help="git push repo name?")
+    parser.add_argument("-p","--profile_url", help="Currently only tested with github")
+    parser.add_argument("-s","--saturate", help="add more commits to standout more")
+    parser.add_argument("images", help="images to gitfitti", nargs='*')
+    args = parser.parse_args()
+    print(f"args.git_base: {args.git_base}")
+
+    if args.noninteractive:
+        print("Ok, no questions. Getting the cans ready.")
+        print(args)
+        headless(username=args.username,
+                 repo=args.repo,
+                 profile_url=args.profile_url if args.profile_url else GITHUB_BASE_URL,
+                 git_base=args.git_base if args.git_base else DEFAULT_GIT_BASE,
+                 offset=args.offset if args.offset else 1,
+                 saturate=args.saturate,
+                 img_names=args.images)
+    else:
+        interactive()
+
 
 
 if __name__ == '__main__':

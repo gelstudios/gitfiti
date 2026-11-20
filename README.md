@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/gelstudios/gitfiti.svg?branch=master)](https://travis-ci.org/gelstudios/gitfiti)
 
-**gitfiti** _noun_ : Carefully crafted graffiti in a github commit history calendar.  
+**gitfiti** _noun_ : Carefully crafted graffiti in a github commit history calendar.
 
-An example of gitfiti in the wild:  
+An example of gitfiti in the wild:
 ![screenshot of gitfiti](https://raw.github.com/gelstudios/gitfiti/master/gitfiti-screenshot.png "screenshot")
 
 `gitfiti.py` is a tool to decorate your github account's commit history calendar by (blatantly) abusing git's ability to accept commits _in the past_.
@@ -13,7 +13,7 @@ Since this is likely to clobber repo's history, it is highly recommend that you 
 
 ### Pixel Art
 
-![pixel art examples](https://raw.github.com/gelstudios/gitfiti/master/pixels-large.png "pixel art")  
+![pixel art examples](https://raw.github.com/gelstudios/gitfiti/master/pixels-large.png "pixel art")
 Included "art" from left to right: kitty, oneup, oneup2, hackerschool, octocat, octocat2
 
 ### Usage
@@ -75,14 +75,41 @@ For example:
 [1,1,1,1,1,1,1],
 [1,1,1,1,1,1,1]]
 ```
-
 This would output a 7 x 7 light green square with a single blank center square.
 
 Once you have a file with templates, enter its name when prompted and the templates will be added to the list of options.
 
+> When using your own template with the CLI command you need to name it `:CUSTOM_IMG` (for now)
+
 ### Removal
 
 Fortunately if you regret your gitfiti in the morning, removing it is fairly easy: delete the repo you created for your gitfiti (and wait).
+
+### CLI
+
+```bash
+usage: gitfiti.py [-h] [-n] [-u USERNAME] [-o OFFSET] [-g GIT_BASE] [-r REPO] [-p PROFILE_URL]
+                  [-s SATURATE]
+                  [images ...]
+
+positional arguments:
+  images                images to gitfitti
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --noninteractive  don't prompt for input
+  -u USERNAME, --username USERNAME
+                        Github username
+  -o OFFSET, --offset OFFSET
+                        Image offset from left border
+  -g GIT_BASE, --git_base GIT_BASE
+                        git remote (minus repo)
+  -r REPO, --repo REPO  git push repo name?
+  -p PROFILE_URL, --profile_url PROFILE_URL
+                        Currently only tested with github
+  -s SATURATE, --saturate SATURATE
+                        add more commits to standout more
+```
 
 ### License
 
